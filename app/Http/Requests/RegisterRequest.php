@@ -36,17 +36,6 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    // エラーメッセージを日本語にする設定
-    public function messages()
-    {
-        return [
-            'over_name_kana.regex' => 'セイはカタカナで入力してください。',
-            'under_name_kana.regex' => 'メイはカタカナで入力してください。',
-            'mail_address.unique' => 'このメールアドレスは既に登録されています。',
-            'password.confirmed' => 'パスワードが一致しません。',
-            'datetime_validation.date' => '正しい日付を入力してください。',
-        ];
-    }
 
     // 年月日を合体させてチェックするための準備
     protected function prepareForValidation()
