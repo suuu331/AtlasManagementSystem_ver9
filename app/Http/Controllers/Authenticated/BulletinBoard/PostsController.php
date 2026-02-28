@@ -58,6 +58,12 @@ class PostsController extends Controller
     }
 
     public function postEdit(Request $request){
+        // 設計書の条件に基づいたバリデーションを追加
+        $request->validate([
+           'post_title' => 'required|string|max:100',
+           'post_body' => 'required|string|max:2000',
+        ]);
+        // 更新処理
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
             'post' => $request->post_body,
@@ -66,9 +72,12 @@ class PostsController extends Controller
     }
 
     public function postDelete($id){
-        Post::findOrFail($id)->delete();
+        // 該当するIDの投稿を削除 Post::findOrFail($id)->delete();
+        Post::where('id', $id)->delete();
+
         return redirect()->route('post.show');
     }
+
     public function mainCategoryCreate(Request $request){
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');

@@ -6,9 +6,12 @@
         <div class="detail_inner_head">
           <div>
           </div>
+          <!-- if文で「自分の投稿」の時だけボタンが表示される -->
           <div>
-            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
+            @if($post->user_id == Auth::id())
+              <span class="edit-modal-open btn btn-primary" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
+               <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-danger" onclick="return confirm('本当に削除しますか？')">削除</a>
+            @endif
           </div>
         </div>
 
@@ -73,3 +76,32 @@
   </div>
 </div>
 </x-sidebar>
+
+
+<!-- JavaScript の追加（モーダルを動かす） -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function () {
+  // 編集ボタンをクリックした時
+  $('.edit-modal-open').on('click', function () {
+    $('.js-modal').fadeIn(); // モーダルを表示
+
+    // ボタンに仕込んだ値を取得
+    var post_title = $(this).attr('post_title');
+    var post_body = $(this).attr('post_body');
+    var post_id = $(this).attr('post_id');
+
+    // モーダル内の各入力欄に値をセット
+    $('.modal-inner-title input').val(post_title);
+    $('.modal-inner-body textarea').val(post_body);
+    $('.edit-modal-hidden').val(post_id);
+    return false;
+  });
+
+  // 閉じるボタンをクリックした時
+  $('.js-modal-close').on('click', function () {
+    $('.js-modal').fadeOut();
+    return false;
+  });
+});
+</script>
