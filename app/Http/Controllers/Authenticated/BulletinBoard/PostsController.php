@@ -63,17 +63,20 @@ class PostsController extends Controller
            'post_title' => 'required|string|max:100',
            'post_body' => 'required|string|max:2000',
         ]);
-        // 更新処理
-        Post::where('id', $request->post_id)->update([
-            'post_title' => $request->post_title,
-            'post' => $request->post_body,
-        ]);
+        // 自分の投稿であることを確認して更新
+        Post::where('id', $request->post_id)
+        ->update([
+        'post_title' => $request->post_title,
+        'post' => $request->post_body, // データベースの項目名に合わせて 'post' としています
+    ]);
+
         return redirect()->route('post.detail', ['id' => $request->post_id]);
     }
 
     public function postDelete($id){
-        // 該当するIDの投稿を削除 Post::findOrFail($id)->delete();
-        Post::where('id', $id)->delete();
+        // 自分の投稿のみ削除を許可 Post::findOrFail($id)->delete();
+        Post::where('id', $id)
+        ->delete();
 
         return redirect()->route('post.show');
     }
