@@ -67,6 +67,7 @@ class User extends Authenticatable
     }
 
     public function subjects(){
+        // ユーザー検索画面
         // リレーションの定義
         // ユーザーは多くの科目（Subjects）に属するという定義
         return $this->belongsToMany(Subjects::class, 'subject_users', 'user_id', 'subject_id');
