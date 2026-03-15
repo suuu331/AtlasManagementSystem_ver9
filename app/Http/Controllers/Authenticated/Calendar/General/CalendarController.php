@@ -1,4 +1,5 @@
 <?php
+// 一般ユーザー（General）の予約画面用、関連メソッド
 
 namespace App\Http\Controllers\Authenticated\Calendar\General;
 
@@ -35,4 +36,5 @@ class CalendarController extends Controller
         }
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
     }
+
 }

@@ -1,4 +1,5 @@
 <?php
+// 管理者（Admin）専用のカレンダー操作（枠の登録や編集）
 
 namespace App\Http\Controllers\Authenticated\Calendar\Admin;
 

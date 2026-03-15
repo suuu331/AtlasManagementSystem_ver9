@@ -22,9 +22,15 @@ class Post extends Model
     public function postComments(){
         return $this->hasMany('App\Models\Posts\PostComment');
     }
+    // 1つの投稿は、たくさんの「いいね」を持っています
+    public function likes(){
+        // Likeモデルと1対多の関係（一つの投稿に対して複数のいいねがつく）
+        return $this->hasMany('App\Models\Posts\Like', 'like_post_id');
+}
 
+    // 投稿に紐づくサブカテゴリーのリレーション
     public function subCategories(){
-        // リレーションの定義
+        return $this->belongsTo('App\Models\Categories\SubCategory', 'post_category_id');
     }
 
     // コメント数

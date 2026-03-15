@@ -24,12 +24,14 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'post_category_id' => 'required|exists:sub_categories,id', // サブカテゴリー必須、かつ実在するID
             'post_title' => 'required|string|max:100',
             'post_body' => 'required|string|max:2000',
         ];
     }
 
     public function messages(){
+        // validation.php（言語ファイル）で設定した場合は、ここは空でも日本語になります。
         return [
             'post_title.required' => 'タイトルは必ず入力してください。',
             'post_title.string' => 'タイトルは文字列である必要があります。',
@@ -37,6 +39,9 @@ class PostFormRequest extends FormRequest
             'post_body.required' => '内容は必ず入力してください。',
             'post_body.string' => '内容は文字列である必要があります。',
             'post_body.max' => '最大文字数は2000文字です。',
+
+            'post_category_id.required' => 'カテゴリーは必須です。',
+            'post_category_id.exists' => '正しいカテゴリーを選択してください。',
         ];
     }
 }
