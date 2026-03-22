@@ -25,19 +25,24 @@ class CalendarWeekDay{
 
   function dayPartCounts($ymd){
     $html = [];
+    // 予約設定を取得（紐づいているユーザー情報も一緒に取得）
     $one_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
     $two_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
     $three_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
 
     $html[] = '<div class="text-left">';
+
+    // 1部：リンクを追加（route関数の第2引数で日付と部数を渡す）
     if($one_part){
-      $html[] = '<p class="day_part m-0 pt-1">1部</p>';
+      $html[] = '<p class="day_part m-0 pt-1"><a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 1]).'">1部：' . $one_part->users->count() . '人</a></p>';
     }
+    // 2部
     if($two_part){
-      $html[] = '<p class="day_part m-0 pt-1">2部</p>';
+      $html[] = '<p class="day_part m-0 pt-1"><a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 2]).'">2部：' . $two_part->users->count() . '人</a></p>';
     }
+    // 3部
     if($three_part){
-      $html[] = '<p class="day_part m-0 pt-1">3部</p>';
+      $html[] = '<p class="day_part m-0 pt-1"><a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 3]).'">3部：' . $three_part->users->count() . '人</a></p>';
     }
     $html[] = '</div>';
 
@@ -83,4 +88,5 @@ class CalendarWeekDay{
     $html[] = '</div>';
     return implode('', $html);
   }
+
 }

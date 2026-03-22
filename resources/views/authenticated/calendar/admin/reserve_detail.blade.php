@@ -11,21 +11,15 @@
           <th class="w-25">名前</th>
           <th class="w-25">予約場所</th>
         </tr>
-        {{-- コントローラーから送られてきた $reservePersons をループさせる --}}
-        @foreach($reservePersons as $reserveSetting)
-          @foreach($reserveSetting->users as $user)
+
+        {{-- $reservePersons（ユーザーの集まり）を直接ループさせる --}}
+          @foreach($reservePersons as $user)
           <tr class="text-center">
             <td class="w-25">{{ $user->id }}</td>
             <td class="w-25">{{ $user->over_name }}{{ $user->under_name }}</td>
-            <td class="w-25">
-              {{-- ユーザーが選択している科目を「予約場所」として表示 --}}
-              @foreach($user->subjects as $subject)
-                {{ $subject->subject }}
-              @endforeach
-            </td>
+            <td class="w-25">リモート</td> {{-- 課題：予約場所（リモートのみ）を表示 --}}
           </tr>
           @endforeach
-        @endforeach
       </table>
     </div>
   </div>

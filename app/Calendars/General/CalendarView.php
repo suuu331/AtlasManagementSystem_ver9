@@ -40,10 +40,16 @@ class CalendarView{
         $startDay = $this->carbon->copy()->format("Y-m-01");
         $toDay = $this->carbon->copy()->format("Y-m-d");
 
+        // ★追加：今日より前（過去日）かどうかを判定
+        $isPast = $day->everyDay() < $toDay;
+        $pastClass = $isPast ? 'bg-secondary' : ''; // 過去ならグレー背景クラスを入れる
+        // 元々の条件分岐に $pastClass を組み込む
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="calendar-td">';
+          // クラス名の最後に $pastClass を追加
+          $html[] = '<td class="calendar-td ' . $pastClass . '">';
         }else{
-          $html[] = '<td class="calendar-td '.$day->getClassName().'">';
+          // クラス名の最後に $pastClass を追加
+          $html[] = '<td class="calendar-td '.$day->getClassName().' ' . $pastClass . '">';
         }
         $html[] = $day->render();
 
@@ -56,13 +62,18 @@ class CalendarView{
           }else if($reservePart == 3){
             $reservePart = "リモ3部";
           }
-          if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
-          }else{
-            $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
-          }
+       // 予約済みの場合の表示処理
+        if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
+          // 過去日の表示（CalendarWeekDay側で「〇部参加」が出るので、ここでは hidden だけ確実に送る）
+          $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+        }else{
+          // 未来日の表示（キャンセルボタンなど）
+         // ボタンをクリックしたときにモーダルを開く設定に変更（JSへ日付と部数を渡す）
+          $html[] = '<button type="button" class="btn btn-danger p-0 w-75 js-modal-open" style="font-size:12px"
+          data-reserve_date="'. $day->everyDay() .'"
+          data-reserve_part="'. $reservePart .'">'. $reservePart .'</button>';
+          $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+        }
         }else{
           $html[] = $day->selectPart($day->everyDay());
         }

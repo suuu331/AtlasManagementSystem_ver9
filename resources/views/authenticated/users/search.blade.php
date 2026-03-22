@@ -93,6 +93,16 @@
           </div>
           <div class="selected_engineer">
             <label>選択科目</label>
+            {{-- ★ここから追記 --}}
+            <div class="subject_check_boxes">
+              @foreach($subjects as $subject)
+                <div class="d-inline-block mr-2">
+                {{-- チェックボックスの name は配列形式「subjects[]」にします --}}
+                  <input type="checkbox" name="subjects[]" value="{{ $subject->id }}" form="userSearchRequest" id="subject_{{ $subject->id }}">
+                   <label for="subject_{{ $subject->id }}">{{ $subject->subject }}</label>
+                </div>
+              @endforeach
+            </div>
           </div>
         </div>
       </div>

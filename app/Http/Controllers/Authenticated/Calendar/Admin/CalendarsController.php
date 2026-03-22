@@ -21,9 +21,17 @@ class CalendarsController extends Controller
     }
 
     public function reserveDetail($date, $part){
-        $reservePersons = ReserveSettings::with('users')->where('setting_reserve', $date)->where('setting_part', $part)->get();
-        return view('authenticated.calendar.admin.reserve_detail', compact('reservePersons', 'date', 'part'));
-    }
+    // 指定された日付と部数の「予約枠」を1つ取得し、予約しているユーザーを一緒に持ってくる
+    $reserveSetting = ReserveSettings::with('users')
+        ->where('setting_reserve', $date)
+        ->where('setting_part', $part)
+        ->first();
+
+    // 予約者がいる場合はそのユーザー一覧を、いない場合は空のリストを定義
+    $reservePersons = $reserveSetting ? $reserveSetting->users : collect();
+
+    return view('authenticated.calendar.admin.reserve_detail', compact('reservePersons', 'date', 'part'));
+}
 
     public function reserveSettings(){
         $calendar = new CalendarSettingView(time());

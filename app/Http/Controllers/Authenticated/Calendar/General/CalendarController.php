@@ -37,4 +37,29 @@ class CalendarController extends Controller
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
     }
 
+
+    // 予約をキャンセル（削除）するための delete メソッド
+    public function delete(Request $request){
+        DB::beginTransaction();
+        try{
+            // モーダルから送られてきた日付を取得
+            $delete_date = $request->delete_date;
+            // ログインユーザーがその日に予約している設定（部数など）を取得
+            $reserve_setting = Auth::user()->reserveSettings()->where('setting_reserve', $delete_date)->first();
+
+            if($reserve_setting){
+                // 1. 予約枠を1つ戻す
+                $reserve_setting->increment('limit_users');
+                // 2. 中間テーブルの紐付けを解除する
+                $reserve_setting->users()->detach(Auth::id());
+            }
+
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+        }
+        // カレンダー画面へリダイレクト（ルート名はプロジェクトの設定に合わせてください）
+        return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
+    }
+
 }

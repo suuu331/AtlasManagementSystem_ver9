@@ -25,8 +25,10 @@ class CalendarWeekDay{
    */
 
    function render(){
-     return '<p class="day">' . $this->carbon->format("j"). '日</p>';
-   }
+    // 今日より前の日付（過去日）なら 'past-day' というクラスを追加する
+    $dayClass = $this->carbon->lt(Carbon::today()) ? 'past-day bg-secondary' : '';
+    return '<p class="day '.$dayClass.'">' . $this->carbon->format("j"). '日</p>';
+    }
 
    function selectPart($ymd){
      $one_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
@@ -46,6 +48,23 @@ class CalendarWeekDay{
        $three_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first()->limit_users;
      }else{
        $three_part_frame = '0';
+     }
+
+    // ★修正：過去日の判定ロジック
+     $current_date = Carbon::today()->format('Y-m-d');
+     if($ymd < $current_date){
+        $my_reserve = $this->authReserveDate($ymd)->first();
+        if($my_reserve){
+          $html_text = '<p class="m-0 small" style="color:black;">' . $my_reserve->setting_part . '部参加</p>';
+        }else{
+          $html_text = '<p class="m-0 small" style="color:black;">受付終了</p>';
+        }
+        // 【重要】エラー回避のポイント！
+        // 過去日であっても「空の input」を忍び込ませることで、
+        // Controller側で受け取る $getPart[] の数を日付の数と一致させます。
+        $html_text .= '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+
+        return $html_text;
      }
 
      $html = [];
