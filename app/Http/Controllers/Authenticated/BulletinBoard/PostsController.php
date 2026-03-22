@@ -30,7 +30,9 @@ class PostsController extends Controller
         }
         // サブカテゴリーでの絞り込み（サイドバーなどからの遷移）
         if (!empty($request->category_word)) {
-            $query->where('post_category_id', $request->category_word);
+            // IDではなく「名前」でサブカテゴリーを探し、そのサブカテゴリーを持つ投稿に絞り込む
+           $query->whereHas('subCategory', function($q) use ($request) {
+           $q->where('sub_category', $request->category_word);
         }
 
        // いいねした投稿

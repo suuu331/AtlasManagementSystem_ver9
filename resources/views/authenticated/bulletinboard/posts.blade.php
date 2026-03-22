@@ -9,8 +9,8 @@
 
       {{-- ★カテゴリー表示（設計書通りにサブカテゴリーを表示する場合） --}}
       <div class="mt-2">
-        @if($post->subCategories)
-          <span class="badge badge-info">{{ $post->subCategories->sub_category }}</span>
+        @if($post->subCategory)
+          <span class="badge badge-info">{{ $post->subCategory->sub_category }}</span>
         @endif
       </div>
 
