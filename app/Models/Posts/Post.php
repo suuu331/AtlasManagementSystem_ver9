@@ -3,6 +3,7 @@
 namespace App\Models\Posts;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Categories\SubCategory;// ★追加：SubCategoryモデルの居場所を教える
 
 class Post extends Model
 {
@@ -29,9 +30,9 @@ class Post extends Model
 }
 
     // 投稿に紐づくサブカテゴリーのリレーション
-    public function subCategories(){
-        return $this->belongsTo('App\Models\Categories\SubCategory', 'post_category_id');
-    }
+    public function subCategory(){
+    return $this->belongsTo(SubCategory::class, 'post_category_id');
+}
 
     // コメント数
     public function commentCounts($post_id){
