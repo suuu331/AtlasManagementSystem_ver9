@@ -14,6 +14,7 @@ class Post extends Model
         'user_id',
         'post_title',
         'post',
+        'post_category_id',//追記、サブカテゴリー検索
     ];
 
     public function user(){
@@ -24,14 +25,15 @@ class Post extends Model
         return $this->hasMany('App\Models\Posts\PostComment');
     }
     // 1つの投稿は、たくさんの「いいね」を持っています
+    // Likeモデルと1対多の関係（一つの投稿に対して複数のいいねがつく）
     public function likes(){
-        // Likeモデルと1対多の関係（一つの投稿に対して複数のいいねがつく）
         return $this->hasMany('App\Models\Posts\Like', 'like_post_id');
 }
 
     // 投稿に紐づくサブカテゴリーのリレーション
+    // 第2引数に、実際のカラム名 'post_category_id' を指定
     public function subCategory(){
-    return $this->belongsTo(SubCategory::class, 'post_category_id');
+        return $this->belongsTo(SubCategory::class, 'post_category_id');
 }
 
     // コメント数

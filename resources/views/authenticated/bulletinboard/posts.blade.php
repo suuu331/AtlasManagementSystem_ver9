@@ -7,7 +7,7 @@
       <p><span>{{ $post->user->over_name }}</span><span class="ml-3">{{ $post->user->under_name }}</span>さん</p>
       <p><a href="{{ route('post.detail', ['id' => $post->id]) }}">{{ $post->post_title }}</a></p>
 
-      {{-- ★カテゴリー表示（設計書通りにサブカテゴリーを表示する場合） --}}
+      {{-- ★カテゴリー表示（設計書通りにサブカテゴリーを表示する） --}}
       <div class="mt-2">
         @if($post->subCategory)
           <span class="badge badge-info">{{ $post->subCategory->sub_category }}</span>
@@ -52,11 +52,14 @@
           <div class="main_category border-bottom mb-1" style="cursor: pointer;">
             <span>{{ $category->main_category }}</span>
           </div>
-          {{-- サブカテゴリーリスト（初期状態は隠す） --}}
+          {{-- サブカテゴリーリスト --}}
           <div class="sub_category_list mb-2" style="display: none; padding-left: 15px;">
             @foreach($category->subCategories as $sub)
               <div class="sub_category_item">
-                <input type="submit" name="category_word" value="{{ $sub->sub_category }}" form="postSearchRequest" class="btn btn-link p-0" style="font-size: 13px;">
+              {{-- ★修正：inputからbuttonに変えて、valueをIDに --}}
+              <button type="submit" name="category_word" value="{{ $sub->id }}" form="postSearchRequest" class="btn btn-link p-0" style="font-size: 13px;">
+                {{ $sub->sub_category }}
+              </button>
               </div>
             @endforeach
           </div>

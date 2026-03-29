@@ -21,9 +21,8 @@ class SubCategory extends Model
     }
 
     public function posts(){
-        // リレーションの定義
-        // サブカテゴリーにはたくさんの投稿が紐づく
-        // 第2引数はPostテーブルにある外部キー名に合わせてください
+        // リレーションの定義、「このサブカテゴリーに属する投稿(posts)はたくさんある」という定義
+        // 第2引数には、postsテーブルにあるカラム名 'post_category_id' を指定
         return $this->hasMany('App\Models\Posts\Post', 'post_category_id');
     }
 }

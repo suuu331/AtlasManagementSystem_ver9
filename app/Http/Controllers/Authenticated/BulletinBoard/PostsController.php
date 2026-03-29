@@ -16,41 +16,43 @@ use Auth;
 class PostsController extends Controller
 {
     public function show(Request $request){
-        // 基本のクエリ（リレーションは subCategory 単数形にする）
-        $query = Post::with('user', 'postComments', 'likes', 'subCategory')
-                    ->orderBy('created_at', 'desc');
+    // 1. 最初は「全件表示」用のクエリエ
+    $query = Post::with('user', 'postComments', 'likes', 'subCategory')
+                ->orderBy('created_at', 'desc');
 
-        // キーワード検索（タイトル or 本文）
-        if (!empty($request->keyword)) {
-            $keyword = $request->keyword;
-            $query->where(function($q) use ($keyword) {
-                $q->where('post_title', 'like', '%' . $keyword . '%')
-                  ->orWhere('post', 'like', '%' . $keyword . '%');
-            });
-        }
-        // サブカテゴリーでの絞り込み（サイドバーなどからの遷移）
-        if (!empty($request->category_word)) {
-            // IDではなく「名前」でサブカテゴリーを探し、そのサブカテゴリーを持つ投稿に絞り込む
-           $query->whereHas('subCategory', function($q) use ($request) {
-           $q->where('sub_category', $request->category_word);
-        }
+    // 「where」を使わずリレーションで絞り込む
+    if (!empty($request->category_word)) {
+        // IDからサブカテゴリーを特定
+        $category = SubCategory::find($request->category_word);
+        // そのカテゴリーに紐づく投稿(posts)をベースにしたクエリに上書き
+        $query = $category->posts()->with('user', 'postComments', 'likes', 'subCategory');
+    }
 
-       // いいねした投稿
-        if ($request->like_posts) {
+    // 2. キーワード検索（タイトル or 本文）
+    if (!empty($request->keyword)) {
+        $keyword = $request->keyword;
+        $query->where(function($q) use ($keyword) {
+            $q->where('post_title', 'like', '%' . $keyword . '%')
+              ->orWhere('post', 'like', '%' . $keyword . '%');
+        });
+    }
+
+    // いいねした投稿
+    if ($request->like_posts) {
         $likes = Auth::user()->likePostId()->get('like_post_id');
         $query->whereIn('id', $likes);
-        }
-
-       // 自分の投稿
-       if ($request->my_posts) {
-        $query->where('user_id', Auth::id());
-       }
-
-       $posts = $query->get();
-       $categories = MainCategory::with('subCategories')->get();
-
-       return view('authenticated.bulletinboard.posts', compact('posts', 'categories'));
     }
+    // 自分の投稿
+    if ($request->my_posts) {
+        $query->where('user_id', Auth::id());
+    }
+
+    // 4. 最後に最新順に並べ直して取得
+    $posts = $query->orderBy('created_at', 'desc')->get();
+    $categories = MainCategory::with('subCategories')->get();
+
+    return view('authenticated.bulletinboard.posts', compact('posts', 'categories'));
+}
 
 
     public function postDetail($post_id){
