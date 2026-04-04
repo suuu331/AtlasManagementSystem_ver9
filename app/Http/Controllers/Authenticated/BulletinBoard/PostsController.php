@@ -17,15 +17,16 @@ class PostsController extends Controller
 {
     public function show(Request $request){
     // 1. 最初は「全件表示」用のクエリエ
-    $query = Post::with('user', 'postComments', 'likes', 'subCategory')
-                ->orderBy('created_at', 'desc');
+    $query = Post::with('user', 'postComments', 'likes', 'subCategories');
 
-    // 「where」を使わずリレーションで絞り込む
+    // カテゴリー絞り込み
     if (!empty($request->category_word)) {
-        // IDからサブカテゴリーを特定
-        $category = SubCategory::find($request->category_word);
-        // そのカテゴリーに紐づく投稿(posts)をベースにしたクエリに上書き
-        $query = $category->posts()->with('user', 'postComments', 'likes', 'subCategory');
+        $category_id = $request->category_word;
+
+    // whereHas を使うことで、中間テーブルにそのIDが存在する投稿をすべて抽出します
+        $query->whereHas('subCategories', function($q) use ($category_id) {
+        $q->where('sub_category_id', $category_id);
+    });
     }
 
     // 2. キーワード検索（タイトル or 本文）
@@ -69,16 +70,20 @@ class PostsController extends Controller
 
     // サブカテゴリー
     public function postCreate(PostFormRequest $request){
-        // バリデーションはRequestクラスが自動でやってくれるので、保存処理のみ
-        Post::create([
-            'user_id' => Auth::id(),
-            'post_category_id' => $request->post_category_id, // ★ここを追加！
-            'post_title' => $request->post_title,
-            'post' => $request->post_body // フォームのname属性がpost_bodyの場合
-        ]);
+    // 1. まず投稿を保存（ここにはカテゴリーIDは入れない）
+        $post = Post::create([
+        'user_id' => Auth::id(),
+        'post_title' => $request->post_title,
+        'post' => $request->post_body
+    ]);
 
-        return redirect()->route('post.show');
+    // 2. ★中間テーブルに「投稿ID」と「サブカテゴリーID」のペアを保存する
+    // 『post_category_idを使わない』正しい保存方法
+    $post->subCategories()->attach($request->post_category_id);
+
+    return redirect()->route('post.show');
     }
+
 
     public function postEdit(Request $request){
         // 設計書の条件に基づいたバリデーションを追加
