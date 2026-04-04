@@ -16,6 +16,152 @@ li {
   list-style: none;
 }
 
+
+/* ============================================================
+   ログイン画面
+   ============================================================ */
+
+/* 画面全体のコンテナ（背景色と中央寄せ） */
+.login_container {
+  background-color: #ECF1F6;
+  /* bodyの.all_contentと合わせる */
+  width: 100%;
+  min-height: 100vh;
+  /* height を min-height に変更して、中身が伸びても大丈夫なように */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Atlasロゴの配置とサイズ */
+.atlas_logo {
+  margin-bottom: 20px;
+}
+
+.atlas_logo img {
+  width: 150px;
+  /* atlas-black.pngのサイズに合わせて調整 */
+  height: auto;
+}
+
+/* 白い入力用ボックス */
+.login_box {
+  width: 400px;
+  background-color: #FFF;
+  padding: 25px 40px;
+  /* 1つ目の数字が上下、2つ目が左右の余白です */
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  /* 柔らかい影 */
+}
+
+/* ラベル（メールアドレス・パスワードの文字） */
+.login_box p {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* 入力欄：枠線を消して下線だけにする */
+.login_box input[type="text"],
+.login_box input[type="password"],
+.login_box input[type="email"] {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #B0E0E6;
+  /* 下線 太さを2pxに、色をパウダーブルー */
+  padding: 8px 0;
+  margin-bottom: 15px;
+  outline: none;
+  /* クリックした時の黒枠を消す */
+  transition: border-bottom 0.3s;
+}
+
+/* 入力中（フォーカス時）は線を青くする */
+.login_box input:focus {
+  border-bottom: 1px solid #87CEEB;
+}
+
+/* ボタンを右端に寄せるためのコンテナ */
+.login_btn_area {
+  text-align: right;
+  margin-top: 10px;
+}
+
+/* 青いログインボタン */
+.login_btn {
+  background-color: #1E90FF;
+  color: #FFF;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.login_btn:hover {
+  background-color: #007bff;
+}
+
+/* 新規登録はこちらのリンク */
+.registration_link {
+  display: block;
+  text-align: center;
+  margin-top: 25px;
+  font-size: 12px;
+  color: #1E90FF;
+  text-decoration: none;
+}
+
+
+/* ============================================================
+   新規登録画面 (Auth - Register)
+   ============================================================ */
+
+/* 横並びの入力行（姓名など） */
+.register_flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  /* 入力欄の間の溝 */
+}
+
+.register_flex .input_group {
+  width: 48%;
+  /* 半分弱の幅にする */
+}
+
+/* 性別や権限のラジオボタンエリア */
+.radio_group {
+  margin-bottom: 20px;
+}
+
+.radio_label {
+  font-size: 13px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.radio_options {
+  display: flex;
+  gap: 15px;
+  font-size: 12px;
+}
+
+/* 生年月日（セレクトボックス）の並び */
+.birth_group select {
+  border: none;
+  border-bottom: 1px solid #B0E0E6;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+
+
 /* サイドバー */
 .sidebar {
   width: 150px;
