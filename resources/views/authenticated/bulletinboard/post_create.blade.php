@@ -31,7 +31,7 @@
           </div>
 
           <div class="mb-4">
-            {{-- 指示通り：バリデーションをラベルの上に配置 --}}
+            {{-- バリデーションをラベルの上に配置 --}}
             @error('post_body')
               <span class="error_message">{{ $message }}</span>
             @enderror

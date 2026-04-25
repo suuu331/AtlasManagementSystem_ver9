@@ -28,8 +28,9 @@
   {{-- 右下：アイコン --}}
   <div class="bottom_right d-flex post_status">
     <div class="mr-3">
-      <i class="fa fa-comment"></i>
-      <span>{{ $post->postComments->count() }}</span>
+      <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="text-secondary" style="text-decoration: none;">
+    <i class="fa fa-comment"></i>
+    <span>{{ $post->postComments->count() }}</span></a>
     </div>
     <div>
       @if(Auth::user()->is_Like($post->id))
