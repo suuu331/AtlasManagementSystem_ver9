@@ -17,23 +17,23 @@
         <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     </head>
+
     <body class="all_content">
         <div class="d-flex">
             <div class="sidebar">
-                <p><a href="{{ route('top.show') }}">トップ</a></p>
-                <p><a href="/logout">ログアウト</a></p>
-                <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
+                <p><a href="{{ route('top.show') }}"><img src="{{ asset('image/icon-home.png') }}" class="sidebar-icon">マイページ</a></p>
+                <p><a href="/logout"><img src="{{ asset('image/icon-logout.png') }}" class="sidebar-icon">ログアウト</a></p>
+                <p><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}"><img src="{{ asset('image/icon-calendar.png') }}" class="sidebar-icon">スクール予約</a></p>
 
-                {{-- ここから追記 --}}
                 @if(Auth::user()->role <= 3)
-                  <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
-                  <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
+                <p><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}"><img src="{{ asset('image/icon-check.png') }}" class="sidebar-icon">スクール予約確認</a></p>
+                <p><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}"><img src="{{ asset('image/icon-register.png') }}" class="sidebar-icon">スクール枠登録</a></p>
                 @endif
-                 {{-- ここまで--}}
 
-                <p><a href="{{ route('post.show') }}">掲示板</a></p>
-                <p><a href="{{ route('user.show') }}">ユーザー検索</a></p>
+                <p><a href="{{ route('post.show') }}"><img src="{{ asset('image/icon-board.png') }}" class="sidebar-icon">掲示板</a></p>
+                <p><a href="{{ route('user.show') }}"><img src="{{ asset('image/icon-search.png') }}" class="sidebar-icon">ユーザー検索</a></p>
             </div>
+
             <div class="main-container">
                 {{ $slot }}
             </div>

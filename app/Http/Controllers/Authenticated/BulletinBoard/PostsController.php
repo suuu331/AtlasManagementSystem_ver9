@@ -16,20 +16,17 @@ use Auth;
 class PostsController extends Controller
 {
     public function show(Request $request){
-    // 1. 最初は「全件表示」用のクエリエ
-    $query = Post::with('user', 'postComments', 'likes', 'subCategories');
+    // subCategories（sあり）を読み込みます
+    $query = Post::with(['user', 'postComments', 'likes', 'subCategories']);
 
     // カテゴリー絞り込み
     if (!empty($request->category_word)) {
         $category_id = $request->category_word;
-
-    // whereHas を使うことで、中間テーブルにそのIDが存在する投稿をすべて抽出します
         $query->whereHas('subCategories', function($q) use ($category_id) {
-        $q->where('sub_category_id', $category_id);
-    });
+            $q->where('sub_category_id', $category_id);
+        });
     }
 
-    // 2. キーワード検索（タイトル or 本文）
     if (!empty($request->keyword)) {
         $keyword = $request->keyword;
         $query->where(function($q) use ($keyword) {
@@ -156,7 +153,7 @@ class PostsController extends Controller
 
     public function likeBulletinBoard(){
         $like_post_id = Like::with('users')->where('like_user_id', Auth::id())->get('like_post_id')->toArray();
-        $posts = Post::with('user')->whereIn('id', $like_post_id)->get();
+        $posts = Post::with('user', 'subCategory', 'postComments', 'likes')->whereIn('id', $like_post_id)->get();
         $like = new Like;
         return view('authenticated.bulletinboard.post_like', compact('posts', 'like'));
     }

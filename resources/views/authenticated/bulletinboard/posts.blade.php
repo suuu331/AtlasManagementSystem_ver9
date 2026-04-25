@@ -1,84 +1,97 @@
 <x-sidebar>
-<div class="board_area w-100 border m-auto d-flex">
-  <div class="post_view w-75 mt-5">
-    <p class="w-75 m-auto">投稿一覧</p>
-    @foreach($posts as $post)
-    <div class="post_area border w-75 m-auto p-3">
-      <p><span>{{ $post->user->over_name }}</span><span class="ml-3">{{ $post->user->under_name }}</span>さん</p>
-      <p><a href="{{ route('post.detail', ['id' => $post->id]) }}">{{ $post->post_title }}</a></p>
+  <div class="main-container">
+    <div class="board_wrapper">
 
-      {{-- ★カテゴリー表示（設計書通りにサブカテゴリーを表示する） --}}
-      <div class="mt-2">
-        @if($post->subCategory)
-          <span class="badge badge-info">{{ $post->subCategory->sub_category }}</span>
-        @endif
-      </div>
+      {{-- 左側：投稿一覧エリア --}}
+      <div class="left_container">
+        @foreach($posts as $post)
+          <div class="post_area">
+            {{-- 投稿者 --}}
+            <p class="contributor">
+              {{ $post->user->over_name }}{{ $post->user->under_name }}さん
+            </p>
+            {{-- 投稿タイトル --}}
+            <p class="post_title">
+              <a href="{{ route('post.detail', ['id' => $post->id]) }}">{{ $post->post_title }}</a>
+            </p>
 
-      <div class="post_bottom_area d-flex mt-2">
-        <div class="d-flex post_status">
-          <div class="mr-5">
-            <i class="fa fa-comment"></i>
-            <span class="">{{ $post->postComments->count() }}</span>
-          </div>
-          <div>
-            @if(Auth::user()->is_Like($post->id))
-              <i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}" style="color: red;"></i>
-            @else
-              <i class="fas fa-heart like_btn" post_id="{{ $post->id }}" style="color: gray;"></i>
-            @endif
-            <span class="like_counts{{ $post->id }}">{{ $post->likes->count() }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    @endforeach
+            {{-- 下部エリア：CSSの justify-content: space-between が効く構造 --}}
+      <div class="post_bottom_area mt-3">
+        {{-- 左下：カテゴリー --}}
+  <div class="bottom_left">
+    {{-- ★sをつけて subCategories にし、最初の1つを表示するようにします --}}
+    @if($post->subCategories->first())
+      <span class="category_box">{{ $post->subCategories->first()->sub_category }}</span>
+    @endif
   </div>
 
-
- <div class="other_area border w-25">
-    <div class="border m-4 p-2">
-      <div class="mb-2"><a href="{{ route('post.input') }}" class="btn btn-primary w-100">投稿</a></div>
-      <div class="d-flex mb-2">
-        <input type="text" class="w-75" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-        <input type="submit" class="w-25" value="検索" form="postSearchRequest">
-      </div>
-      <input type="submit" name="like_posts" class="btn btn-secondary w-100 mb-2" value="いいねした投稿" form="postSearchRequest">
-      <input type="submit" name="my_posts" class="btn btn-secondary w-100 mb-2" value="自分の投稿" form="postSearchRequest">
-
-      <p class="mt-4">カテゴリー</p>
-      <div class="category_menu">
-        @foreach($categories as $category)
-          {{-- メインカテゴリー --}}
-          <div class="main_category border-bottom mb-1" style="cursor: pointer;">
-            <span>{{ $category->main_category }}</span>
-          </div>
-          {{-- サブカテゴリーリスト --}}
-          <div class="sub_category_list mb-2" style="display: none; padding-left: 15px;">
-            @foreach($category->subCategories as $sub)
-              <div class="sub_category_item">
-              {{-- ★修正：inputからbuttonに変えて、valueをIDに --}}
-              <button type="submit" name="category_word" value="{{ $sub->id }}" form="postSearchRequest" class="btn btn-link p-0" style="font-size: 13px;">
-                {{ $sub->sub_category }}
-              </button>
-              </div>
-            @endforeach
-          </div>
+  {{-- 右下：アイコン --}}
+  <div class="bottom_right d-flex post_status">
+    <div class="mr-3">
+      <i class="fa fa-comment"></i>
+      <span>{{ $post->postComments->count() }}</span>
+    </div>
+    <div>
+      @if(Auth::user()->is_Like($post->id))
+        <i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i>
+      @else
+        <i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i>
+      @endif
+      <span class="like_counts{{ $post->id }}">{{ $post->likes->count() }}</span>
+                </div>
+              </div> {{-- bottom_rightの閉じ --}}
+            </div> {{-- post_bottom_areaの閉じ --}}
+          </div> {{-- post_areaの閉じ --}}
         @endforeach
       </div>
+
+      {{-- 右側：メニューエリア --}}
+      <div class="right_container">
+        <a href="{{ route('post.input') }}" class="btn btn-primary w-100 mb-3">投稿</a>
+
+        <div class="search_area d-flex mb-3">
+          <input type="text" class="form-control" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
+          <input type="submit" class="btn btn-info ml-1" value="検索" form="postSearchRequest">
+        </div>
+
+        <div class="btn_flex_container mb-4">
+          <input type="submit" name="like_posts" class="btn btn-like" value="いいねした投稿" form="postSearchRequest">
+          <input type="submit" name="my_posts" class="btn btn-my-post" value="自分の投稿" form="postSearchRequest">
+        </div>
+
+        <p class="mb-2">カテゴリー検索</p>
+        <div class="category_area">
+          @foreach($categories as $category)
+            <div class="main_category d-flex justify-content-between js-accordion-title" style="cursor: pointer;">
+              <span>{{ $category->main_category }}</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="sub_category_list" style="display: none;">
+              @foreach($category->subCategories as $sub)
+                <div class="sub_category_item">
+                  <button type="submit" name="category_word" value="{{ $sub->id }}" form="postSearchRequest" class="btn btn-link p-0 text-dark" style="text-decoration: none;">
+                    {{ $sub->sub_category }}
+                  </button>
+                </div>
+              @endforeach
+            </div>
+          @endforeach
+        </div>
+      </div>
+
+      <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
     </div>
   </div>
-  <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
-</div>
 
 
-
-<!-- JavaScriptの部分 -->
+ <!-- JavaScriptの部分 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(function () {
   // 1. カテゴリー開閉
-  $('.main_category').click(function () {
+  $('.js-accordion-title').click(function () { // クラス名を揃えました
     $(this).next('.sub_category_list').slideToggle();
+    $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
   });
 
   // 2. いいね登録
@@ -91,7 +104,8 @@ $(function () {
       url: "/like/post/" + post_id,
       data: { post_id: post_id },
     }).done(function (res) {
-      _this.addClass('un_like_btn').removeClass('like_btn').css('color', 'red');
+      // ✅ .css() を消しました。これでCSSファイルの赤色が反映されます
+      _this.addClass('un_like_btn').removeClass('like_btn');
       var count = $('.like_counts' + post_id).text();
       $('.like_counts' + post_id).text(parseInt(count) + 1);
     });
@@ -107,7 +121,8 @@ $(function () {
       url: "/unlike/post/" + post_id,
       data: { post_id: post_id },
     }).done(function (res) {
-      _this.addClass('like_btn').removeClass('un_like_btn').css('color', 'gray');
+      // ✅ .css() を消しました。これでCSSファイルのグレーが反映されます
+      _this.addClass('like_btn').removeClass('un_like_btn');
       var count = $('.like_counts' + post_id).text();
       $('.like_counts' + post_id).text(parseInt(count) - 1);
     });

@@ -161,28 +161,87 @@ li {
 }
 
 
+/* ============================================================
+   メインレイアウト（サイドバーあり）
+   ============================================================ */
+
+.main-container {
+  flex: 1;
+  /* サイドバー以外の残り幅をすべて使う */
+  background-color: #ECF1F6;
+  min-height: 100vh;
+  padding: 20px;
+  /* 上に適度な余白を作る */
+}
+
+/* 自分のプロフィール という文字のスタイル */
+.section_title {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 20px;
+  /* 白枠との距離 */
+  display: block;
+  /* 念のためブロック要素に */
+}
+
 
 /* サイドバー */
 .sidebar {
-  width: 150px;
+  width: 200px;
   height: 100vh;
+  /* ↓上と左に余白を作る */
+  padding-top: 20px;
+  padding-left: 15px;
   background-color: #03AAD2;
   font-weight: bold;
 }
 
-.main-container {
-  width: 100%;
-}
-
+/* サイドバー内のリンク設定 */
 .sidebar p a {
+  display: flex;
+  align-items: center;
+  /* アイコンと文字を上下中央で揃える */
+  text-decoration: none;
   color: #FFF;
 }
 
-/* トップページ */
-.user_status {
-  border-radius: 10px;
-  background: #FFF;
+/* アイコンの設定 */
+.sidebar-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  /* 画像の比率を維持 */
+  margin-right: 15px;
+  /* アイコンと文字の間の余白 */
+  filter: brightness(0) invert(1);
+  /* 黒い画像を白く反転させる */
 }
+
+/* --- 白枠（プロフィールボックス） --- */
+.profile_box {
+  background-color: #FFF;
+  /* 背景を白に */
+  padding: 40px;
+  /* 内側の余白 */
+  border-radius: 10px;
+  /* 角を丸く */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  /* 軽い影 */
+  width: fit-content;
+  /* 中身の長さに合わせる、または 80% など */
+  min-width: 600px;
+  /* 最低限の横幅 */
+  margin: 0 auto;
+  /* 白枠だけが中央に */
+}
+
+.profile_box p {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+
+
 
 /* スクール予約関連 */
 .day-blank {
@@ -252,136 +311,283 @@ li {
   width: 60%;
 }
 
-/* 掲示板 */
-.sub_categories {
-  display: none;
+
+
+/* ============================================================
+   掲示板：投稿一覧
+   ============================================================ */
+
+/* 全体を囲む箱 */
+.board_wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 10px;
+  /* 上の余白を多めにとって見本のように配置 */
 }
 
-.post_create_area {
-  background: #FFF;
-  border-radius: 10px;
+/* --- 左側：投稿一覧エリア --- */
+.left_container {
+  flex: 1;
 }
 
-.post_create_area textarea {
-  resize: none;
-  height: 300px;
-  white-space: pre-wrap;
+.right_container {
+  width: 300px;
 }
 
-.detail_container {
-  background: #FFF;
-}
-
+/* 投稿枠 */
 .post_area {
   background: #FFF;
   border-radius: 10px;
+  margin-bottom: 5px;
+  /* ↑枠と枠の間の隙間 */
+  padding: 15px 20px;
+  /* ↑上下の余白 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  /* ほんのり影 */
 }
 
+/* 「投稿のタイトル（リンク）」の見た目 */
+.post_title a {
+  color: #3172D7;
+  /* 見本の青色 */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* 投稿枠の下の部分 横並びにし両端に寄せる */
 .post_bottom_area {
+  display: flex;
   justify-content: space-between;
+  /* ↑これで左と右に分かれます */
+  align-items: center;
 }
 
-.like_btn,
-.un_like_btn {
-  cursor: pointer;
+/* カテゴリーの青いラベル */
+.post_area .category_box {
+  display: inline-block !important;
+  /* 消えるのを防ぐ */
+  background: #03AAD2 !important;
+  /* 見本の明るい水色 */
+  color: #FFF !important;
+  border-radius: 5px;
+  padding: 2px 10px;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
-.un_like,
-.un_like_btn {
-  color: #E2254D;
+/* bottom_left のサイズが潰れないように設定 */
+.bottom_left {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  /* カテゴリーがなくても高さを確保 */
 }
 
-.error_message {
+
+/* アイコンコメントといいねの数字の調整 */
+.post_status span {
+  margin-left: 2px;
+}
+
+/* アイコンや数字のグレー色をまとめて設定 */
+.post_status i,
+.post_status span {
+  color: #999 !important;
   font-size: 12px;
-  color: red;
 }
 
-/* 掲示板 詳細画面 */
+/* ハート（いいね）の未選択時の色グレー */
+/* ハート（いいね）の選択時の色赤色 */
+/* 「iタグ（アイコン）」の色を指定していることを明確にする */
+.post_status i.un_like_btn {
+  color: #E2254D !important;
+  /* 赤 */
+}
+
+.post_status i.like_btn {
+  color: #DDD !important;
+  /* グレー */
+}
+
+/* カテゴリー検索のタイトルの文字サイズ */
+.category_search_title {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+
+
+/* --- 右側メニューのボタン --- */
+.btn-primary {
+  background-color: #61A3AD !important;
+  /* 検索ボタンと同じ水色 */
+  border: none !important;
+  padding: 10px 0;
+  font-weight: bold;
+}
+
+/* --- いいね・自分の投稿ボタンのサイズを揃える --- */
+.btn_flex_container {
+  display: flex;
+  gap: 10px;
+  /* ボタン同士の間の隙間 */
+  margin-top: 15px;
+  /* 検索窓との間隔 */
+}
+
+.btn_flex_container .btn {
+  flex: 1 !important;
+  /* ↑2つのボタンが50%ずつの幅で揃います */
+  width: auto !important;
+  /* Bootstrapのw-100を解除 */
+  padding: 8px 0;
+  border-radius: 5px;
+  border: none;
+  font-size: 12px;
+  color: #FFF;
+  font-weight: bold;
+  white-space: nowrap;
+  /* 文字が折り返さないように */
+}
+
+/* 色の微調整 */
+.btn-like {
+  background-color: #E2254D !important;
+}
+
+.btn-my-post {
+  background-color: #EBB94D !important;
+}
+
+
+
+/* --- カテゴリーエリア --- */
+.category_area {
+  background: #ECF1F6;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.main_category {
+  border-bottom: 1px solid #CDD6DD;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.sub_category_item {
+  border-bottom: 1px solid #CDD6DD;
+  padding: 5px 0 5px 10px;
+}
+
+
+
+/* ============================================================
+   掲示板パーツ：テキスト・ステータス
+   ============================================================ */
+
 .contributor {
   font-size: 12px;
   color: #999;
   font-weight: bold;
 }
 
-.detsail_post_title {
-  font-size: 14px;
-}
-
-.detsail_post {
+.error_message {
+  display: block;
   font-size: 12px;
-  color: #9E9E9E;
-}
-
-.detail_inner_head {
-  display: flex;
-  justify-content: space-between;
-}
-
-.edit-modal-open {
-  cursor: pointer;
-}
-
-.modal-inner-body textarea {
-  height: 150px;
-  resize: none;
-}
-
-.edit-modal-btn {
-  justify-content: space-between;
-}
-
-/* 掲示板 コメント */
-.comment_container {
-  background: #FFF;
-}
-
-.comment_area p,
-.comment_area input {
-  font-size: 12px;
+  color: #E2254D;
+  margin-bottom: 5px;
   font-weight: bold;
 }
 
-.comment_area textarea {
-  height: 300px;
+
+/* ============================================================
+   新規投稿画面
+   ============================================================ */
+* 全体のレイアウト：左右に並べる */ .board_wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 40px auto;
+}
+
+/* 左側エリア：メインフォーム */
+.left_container {
+  width: 50%;
+}
+
+/* 右側エリア：カテゴリー追加 */
+.right_container {
+  width: 30%;
+}
+
+/* 共通のデザイン：白い背景に薄い影 */
+.post_create_area,
+.category_area {
+  background-color: #FFF !important;
+  /* ★枠の中を白にする */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px !important;
+}
+
+/* ★入力フォームの中の色 */
+.post_create_area input[type="text"],
+.post_create_area textarea,
+.post_create_area select,
+.category_area input[type="text"],
+.category_area select {
+  background-color: #FFF !important;
+  /* 見本の入力欄の色 */
+  border: 1px solid #CDD6DD !important;
+  border-radius: 5px !important;
+  padding: 12px;
+  width: 100%;
+}
+
+/* 投稿内容（textarea）の高さ */
+.post_create_area textarea {
+  height: 250px;
   resize: none;
 }
 
-.comment_container span {
+/* ★ボタンの色（見本の鮮やかな青） */
+.btn-primary {
+  background-color: #3172D7 !important;
+  /* 見本のボタンの青色 */
+  border: none !important;
+  color: #FFF !important;
+  font-weight: bold;
+  padding: 8px 20px;
+}
+
+/* ホバー（マウスを乗せた時）の少し暗い青 */
+.btn-primary:hover {
+  background-color: #2659aa !important;
+}
+
+/* エラーメッセージ（ラベルの上に出す赤文字） */
+.error_message {
+  display: block;
+  color: #E2254D;
+  /* 赤色 */
   font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.post_status span {
-  font-size: 12px;
+/* ラベルの文字（カテゴリー、タイトル、投稿内容など） */
+.post_create_area p,
+.category_area p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px !important;
 }
 
-/* 掲示板　カテゴリー */
-.category_area {
-  background: #FFF;
-  border-radius: 10px;
-}
 
-.category_box {
-  border-radius: 5px;
-  padding: 3px;
-  background: #999;
-  font-size: 10px;
-  color: #FFF;
-}
-
-.category_btn {
-  font-size: 12px;
-  border-radius: 5px;
-  padding: 0 5px;
-  border: none;
-  background: #999;
-  color: #FFF;
-}
-
-.main_categories span,
-.sub_categories li input {
-  list-style: none;
-  cursor: pointer;
-}
 
 /* ユーザー検索 */
 .reserve_users_area {
