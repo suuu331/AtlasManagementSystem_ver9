@@ -53,67 +53,88 @@
     </div>
     @endforeach
   </div>
-  <div class="search_area w-25 border">
-    <div class="">
-      <div>
-        <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
-      </div>
-      <div>
-        <lavel>カテゴリ</lavel>
-        <select form="userSearchRequest" name="category">
-          <option value="name">名前</option>
-          <option value="id">社員ID</option>
-        </select>
-      </div>
-      <div>
-        <label>並び替え</label>
-        <select name="updown" form="userSearchRequest">
-          <option value="ASC">昇順</option>
-          <option value="DESC">降順</option>
-        </select>
-      </div>
-      <div class="">
-        <p class="m-0 search_conditions"><span>検索条件の追加</span></p>
-        <div class="search_conditions_inner">
-          <div>
-            <label>性別</label>
-            <span>男</span><input type="radio" name="sex" value="1" form="userSearchRequest">
-            <span>女</span><input type="radio" name="sex" value="2" form="userSearchRequest">
-            <span>その他</span><input type="radio" name="sex" value="3" form="userSearchRequest">
-          </div>
-          <div>
-            <label>権限</label>
-            <select name="role" form="userSearchRequest" class="engineer">
-              <option selected disabled>----</option>
-              <option value="1">教師(国語)</option>
-              <option value="2">教師(数学)</option>
-              <option value="3">教師(英語)</option>
-              <option value="4" class="">生徒</option>
-            </select>
-          </div>
-          <div class="selected_engineer">
-            <label>選択科目</label>
-            {{-- ★ここから追記 --}}
-            <div class="subject_check_boxes">
-              @foreach($subjects as $subject)
-                <div class="d-inline-block mr-2">
-                {{-- チェックボックスの name は配列形式「subjects[]」にします --}}
-                  <input type="checkbox" name="subjects[]" value="{{ $subject->id }}" form="userSearchRequest" id="subject_{{ $subject->id }}">
-                   <label for="subject_{{ $subject->id }}">{{ $subject->subject }}</label>
-                </div>
-              @endforeach
-            </div>
+
+  <div class="search_area">
+     {{-- キーワード・カテゴリ・並び替え --}}
+    <div class="search_box">
+      <p class="search_label">検索</p>
+      <input type="text" class="free_word mb-3" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
+
+      <p class="search_label">カテゴリ</p>
+      <select form="userSearchRequest" name="category" class="mb-3">
+        <option value="name">名前</option>
+        <option value="id">社員ID</option>
+      </select>
+
+      <p class="search_label">並び替え</.>
+      <select name="updown" form="userSearchRequest" class="mb-3">
+        <option value="ASC">昇順</option>
+        <option value="DESC">降順</option>
+      </select>
+    </div>
+
+    {{-- 検索条件の追加（アコーディオン） --}}
+    <div class="search_conditions_container mb-4">
+      <p class="m-0 search_conditions js-search-toggle">
+        <span>検索条件の追加</span>
+        <i class="fas fa-chevron-down"></i>
+      </p>
+      <div class="search_conditions_inner">
+        <div class="mb-3">
+          <label class="d-block small">性別</label>
+          <span>男</span><input type="radio" name="sex" value="1" form="userSearchRequest" class="mr-2">
+          <span>女</span><input type="radio" name="sex" value="2" form="userSearchRequest" class="mr-2">
+          <span>その他</span><input type="radio" name="sex" value="3" form="userSearchRequest">
+        </div>
+        <div class="mb-3">
+          <label class="d-block small">権限</label>
+          <select name="role" form="userSearchRequest" class="w-100">
+            <option selected disabled>----</option>
+            <option value="1">教師(国語)</option>
+            <option value="2">教師(数学)</option>
+            <option value="3">教師(英語)</option>
+            <option value="4">生徒</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="d-block small">選択科目</label>
+          <div class="subject_check_boxes">
+            @foreach($subjects as $subject)
+              <div class="d-inline-block mr-2">
+                <input type="checkbox" name="subjects[]" value="{{ $subject->id }}" form="userSearchRequest" id="subject_{{ $subject->id }}">
+                <label for="subject_{{ $subject->id }}" class="small">{{ $subject->subject }}</label>
+              </div>
+            @endforeach
           </div>
         </div>
       </div>
-      <div>
-        <input type="reset" value="リセット" form="userSearchRequest">
-      </div>
-      <div>
-        <input type="submit" name="search_btn" value="検索" form="userSearchRequest">
-      </div>
     </div>
+
+    {{-- ボタン類 --}}
+    <div class="search_buttons">
+      <input type="submit" name="search_btn" value="検索" class="btn btn-info w-100 mb-2" form="userSearchRequest">
+      {{-- リセットを一番下に配置 --}}
+      <input type="reset" value="リセット" class="reset_btn w-100" form="userSearchRequest">
+    </div>
+  </div>
     <form action="{{ route('user.show') }}" method="get" id="userSearchRequest"></form>
   </div>
 </div>
+
+
+<!-- jQueryを読み込む -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(function () {
+  // 1. 検索条件の開閉（矢印の動き付き）
+  $('.js-search-toggle').click(function () {
+    // 中身（.search_conditions_inner）をスライドで開閉
+    $(this).next('.search_conditions_inner').stop().slideToggle(300);
+
+    // 矢印の向きを切り替え（開時：上矢印 fa-chevron-up、閉時：下矢印 fa-chevron-down）
+    $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+  });
+});
+</script>
 </x-sidebar>

@@ -588,108 +588,245 @@ li {
   margin-bottom: 8px !important;
 }
 
+
 /* ============================================================
    投稿詳細画面
    ============================================================ */
 
-/* 全体のレイアウト（新規投稿画面と同じ board_wrapper を流用） */
-.detail_wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  margin: 50px auto;
-}
-
-/* 左側：投稿内容表示エリア */
-.detail_container {
+/* 1. 左右の枠を同じくらいの存在感にする */
+.left_container {
   width: 48%;
-  /* 見本に合わせて半分くらいの幅に */
-  background: #FFF;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  position: relative;
+  /* 左側を少し削る */
 }
 
-/* 右側：コメント投稿エリア */
-.comment_container {
+.right_container {
   width: 48%;
-  background: #FFF;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  /* 右側を広げる */
 }
 
-/* 編集・削除ボタンの並び（右上に配置） */
-.detail_btns {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-}
-
-/* ボタンのスタイル */
-.btn-edit {
-  background-color: #3172D7;
-  color: #FFF;
-}
-
-.btn-delete {
-  background-color: #E2254D;
-  color: #FFF;
-}
-
-/* コメント入力欄 */
-.comment_container textarea {
+/* 2. 右側のコメント枠内のレイアウト */
+.category_area {
   background-color: #FFF !important;
+  display: flex;
+  flex-direction: column;
+  /* 中身を縦に並べる */
+  min-height: 400px;
+  /* 左側と高さを合わせるための目安 */
+}
+
+/* 3. コメント入力欄：背面を白く、枠線をグレーにする */
+.category_area textarea {
+  background-color: #FFF !important;
+  /* ★背面を白色に */
   border: 1px solid #CDD6DD !important;
+  /* ★薄いグレーの枠線を復活 */
   border-radius: 5px;
   width: 100%;
-  height: 200px;
+  height: 300px;
+  /* しっかり縦長に広げる */
   padding: 15px;
+  resize: none;
+  outline: none;
+}
+
+/* 4. 投稿ボタンを右下に配置する */
+.comment_submit_btn {
+  display: flex;
+  justify-content: flex-end;
+  /* 右寄せ */
+  margin-top: 15px;
+}
+
+/* ボタン自体のサイズ調整（横いっぱいにしない） */
+.comment_submit_btn .btn-primary {
+  width: auto !important;
+  /* 幅を文字に合わせる */
+  padding: 8px 30px !important;
+  /* 横に少し長くして押しやすく */
+}
+
+/* === 投稿表際画面　モーダルデザイン ==== */
+/* モーダル全体の背景（暗くする） */
+.modal {
+  display: none;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.modal__bg {
+  background: rgba(0, 0, 0, 0.6);
+  /* 背景を暗く透けさせる */
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+}
+
+/* モーダルの白い箱 */
+.modal__content {
+  background: #fff;
+  left: 50%;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  /* 見本に合わせて少し横長に */
+  border-radius: 10px;
+}
+
+/* モーダル内の入力欄 */
+.modal_post_title,
+.modal_post_body {
+  width: 100%;
+  border: 1px solid #CDD6DD !important;
+  border-radius: 5px;
+  padding: 10px;
+  outline: none;
+}
+
+.modal_post_body {
+  height: 200px;
   resize: none;
 }
 
+/* ボタンの配置：閉じる(左) と 更新(右) */
+.modal_btns {
+  display: flex;
+  justify-content: space-between;
+  /* 左右の両端に振り分ける */
+  margin-top: 20px;
+  padding: 0 15%;
+  /* 左右に15%ずつ余白を作りボタンを中央に寄せる */
+}
+
+.modal_btns .btn {
+  width: 90px;
+  /* ボタンの幅を統一 */
+  font-size: 14px;
+  font-weight: bold;
+}
 
 
 
-/* ユーザー検索 */
+/* ============================================================
+   ユーザー検索画面：一覧
+   ============================================================ */
+
+/* 1. 全体レイアウト（掲示板と幅を揃える） */
+.search_content {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 30px auto;
+  border: none !important;
+  /* 黒枠を撤去 */
+}
+
+/* 2. 左側：ユーザーカードエリア */
 .reserve_users_area {
   display: flex;
   flex-wrap: wrap;
-  width: 800px;
-  margin: 10px auto;
-  height: 80vh;
-  overflow: scroll;
-  padding: 10px;
-  background: #FFF;
-  border-radius: 5px;
+  gap: 20px;
+  width: 75%;
+  /* 検索フォームとの比率 */
+  height: auto;
+  /* 固定高さを解除 */
+  background: transparent;
+  /* 背景を透明にしてカードの影を際立たせる */
 }
 
-.reserve_users_area span {
-  font-size: 12px;
-}
-
+/* 3. 1人分のカードデザイン */
 .one_person {
-  width: 250px;
-  height: 250px;
+  background: #FFF;
+  border: none !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  /* ふわっとした影 */
+  padding: 20px;
+  width: calc(25% - 15px);
+  /* 横に4枚並ぶ計算 */
+  min-width: 200px;
+  height: auto;
+  /* コンテンツ量に合わせて伸縮 */
 }
 
-.search_conditions span {
+.one_person div {
+  margin-bottom: 5px;
+  /* 各情報の行間に少し余裕を */
+}
+
+.one_person span {
+  font-size: 13px;
+  color: #333;
+}
+
+/* 4. 右側：検索フォームエリア */
+.search_area {
+  width: 20%;
+  background: transparent;
+  border: none !important;
+}
+
+/* 5. アコーディオン（検索条件の追加タイトル） */
+.search_conditions {
+  border-bottom: 1px solid #CDD6DD;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  font-size: 14px;
 }
 
 .search_conditions_inner {
   display: none;
-  background: #FFF;
+  /* JSで動かすので最初は非表示 */
+  background: #ECF1F6;
+  /* 見本の右側エリアと同じ色に馴染ませる */
+  padding: 15px 10px;
+  border-radius: 0 0 5px 5px;
 }
 
-.subject_edit_btn {
-  font-size: 12px;
-  color: #0000FF;
+/* 6. フォーム部品のスタイル */
+.free_word,
+.search_area select {
+  width: 100%;
+  border: 1px solid #CDD6DD;
+  border-radius: 5px;
+  padding: 8px;
+  margin-bottom: 15px;
+  outline: none;
+  background-color: #FFF;
+  /* 入力欄を白くして見やすく */
+}
+
+/* 7. ボタン（見本再現版） */
+/* 検索ボタン：明るい水色で太字に */
+.btn-info {
+  background-color: #00BFFF !important;
+  border: none !important;
+  color: #FFF !important;
+  font-weight: bold;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
-.subject_inner {
-  display: none;
+/* リセットボタン：ボタンではなく「リンク」のような見た目に */
+.reset_btn {
+  background: none !important;
+  border: none !important;
+  color: #00BFFF !important;
+  /* ボタンと同じ色で統一感 */
+  text-decoration: underline;
+  /* 下線をつける */
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 13px;
 }
