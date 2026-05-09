@@ -118,8 +118,31 @@ li {
 
 
 /* ============================================================
-   新規登録画面 (Auth - Register)
+   新規登録画面
    ============================================================ */
+/* 新規登録画面（ログイン画面と共通のコンテナ） */
+.login_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* 横方向の中央寄せ */
+  align-items: center;
+  /* 縦方向の中央寄せ */
+  padding: 50px 0;
+  /* 上下に少し余白を作る */
+}
+
+/* 白い箱（login_box）のサイズを制限 */
+.login_box {
+  width: 100%;
+  max-width: 550px;
+  /* ★ここでサイズを固定します */
+  background: #FFF;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
 
 /* 横並びの入力行（姓名など） */
 .register_flex {
@@ -188,7 +211,7 @@ li {
 /* サイドバー */
 .sidebar {
   width: 200px;
-  height: 100vh;
+  min-height: 100vh;
   /* ↓上と左に余白を作る */
   padding-top: 20px;
   padding-left: 15px;
@@ -221,7 +244,7 @@ li {
 .profile_box {
   background-color: #FFF;
   /* 背景を白に */
-  padding: 40px;
+  padding: 20px;
   /* 内側の余白 */
   border-radius: 10px;
   /* 角を丸く */
@@ -229,7 +252,7 @@ li {
   /* 軽い影 */
   width: fit-content;
   /* 中身の長さに合わせる、または 80% など */
-  min-width: 600px;
+  min-width: 800px;
   /* 最低限の横幅 */
   margin: 0 auto;
   /* 白枠だけが中央に */

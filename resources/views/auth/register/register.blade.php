@@ -1,5 +1,7 @@
 <x-guest-layout>
-  <div class="login_container"> <div class="login_box" style="width: 550px;"> <form action="{{ route('registerPost') }}" method="POST">
+  <div class="login_container">
+    <div class="login_box">
+      <form action="{{ route('registerPost') }}" method="POST">
         @csrf
 
         <div class="register_flex">

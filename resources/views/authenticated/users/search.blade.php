@@ -74,10 +74,11 @@
     </div>
 
     {{-- 検索条件の追加（アコーディオン） --}}
-    <div class="search_conditions_container mb-4">
+    <div class="search_conditions_container">
+     {{-- ここ（スイッチ部分）だけに js-search-toggle をつける --}}
       <p class="m-0 search_conditions js-search-toggle">
-        <span>検索条件の追加</span>
-        <i class="fas fa-chevron-down"></i>
+         <span>検索条件の追加</span>
+         <i class="fas fa-chevron-down"></i>
       </p>
       <div class="search_conditions_inner">
         <div class="mb-3">
@@ -127,13 +128,29 @@
 
 <script>
 $(function () {
-  // 1. 検索条件の開閉（矢印の動き付き）
-  $('.js-search-toggle').click(function () {
-    // 中身（.search_conditions_inner）をスライドで開閉
-    $(this).next('.search_conditions_inner').stop().slideToggle(300);
+  // 1. まず、既存のクリックイベントをすべてクリアしてから登録する
+  $('.js-search-toggle').off('click').on('click', function (e) {
+    // aタグやsubmitのような挙動を完全に止める
+    e.preventDefault();
+    e.stopPropagation();
 
-    // 矢印の向きを切り替え（開時：上矢印 fa-chevron-up、閉時：下矢印 fa-chevron-down）
+    var $inner = $(this).next('.search_conditions_inner');
+
+    // 2. アニメーション中なら何もしない（連打防止）
+    if ($inner.is(':animated')) {
+      return false;
+    }
+
+    // 3. スライド開閉を実行
+    $inner.slideToggle(300);
+
+    // 4. 矢印の向きを切り替え
     $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+  });
+
+  // 5. 中身をクリックしても親のイベントが発火しないようにする
+  $('.search_conditions_inner').on('click', function (e) {
+    e.stopPropagation();
   });
 });
 </script>
