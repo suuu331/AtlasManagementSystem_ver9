@@ -1,4 +1,4 @@
-<!-- 【スクール予約】予約確認画面 -->
+<!-- 【スクール予約】予約確認画面　（管理者用） -->
 <x-sidebar>
 <div class="calendar_main_container">
   <div class="calendar_inner_area">

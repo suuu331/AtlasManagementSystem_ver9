@@ -29,10 +29,12 @@
         <p>予約時間：<span class="modal-inner-part"></span></p>
         <p>上記の予約をキャンセルしてもよろしいですか？</p>
         <input type="hidden" name="delete_date" value="" class="modal-inner-date-input">
-        <div class="w-100 d-flex">
-          <a class="js-modal-close btn btn-primary d-inline-block" href="">閉じる</a>
-          <input type="submit" class="btn btn-danger d-inline-block" value="キャンセル">
-        </div>
+        <div class="w-100 text-center mt-4">
+
+  <a class="js-modal-close btn btn-primary d-inline-block mx-3" href="">閉じる</a>
+  <input type="submit" class="btn btn-danger d-inline-block mx-3" value="キャンセル">
+
+</div>
       </div>
       {{ csrf_field() }}
     </form>

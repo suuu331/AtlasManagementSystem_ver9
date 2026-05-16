@@ -42,14 +42,14 @@ class CalendarView{
 
         // ★追加：今日より前（過去日）かどうかを判定
         $isPast = $day->everyDay() < $toDay;
-        $pastClass = $isPast ? 'bg-secondary' : ''; // 過去ならグレー背景クラスを入れる
+        // $pastClass = $isPast ? 'bg-secondary' : ''; // 過去ならグレー背景クラスを入れる
         // 元々の条件分岐に $pastClass を組み込む
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           // クラス名の最後に $pastClass を追加
-          $html[] = '<td class="calendar-td ' . $pastClass . '">';
+          $html[] = '<td class="calendar-td past-day">';
         }else{
           // クラス名の最後に $pastClass を追加
-          $html[] = '<td class="calendar-td '.$day->getClassName().' ' . $pastClass . '">';
+          $html[] = '<td class="calendar-td '.$day->getClassName().'">';
         }
         $html[] = $day->render();
 
@@ -65,6 +65,7 @@ class CalendarView{
        // 予約済みの場合の表示処理
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           // 過去日の表示（CalendarWeekDay側で「〇部参加」が出るので、ここでは hidden だけ確実に送る）
+          $html[] = $day->selectPart($day->everyDay());
           $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
         }else{
           // 未来日の表示（キャンセルボタンなど）

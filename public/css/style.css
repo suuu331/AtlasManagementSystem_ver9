@@ -1011,6 +1011,64 @@ li {
 }
 
 
+/* ==========================================================================
+   ユーザー検索・一覧画面（スクロール＆カラー調整）
+   ========================================================================== */
+
+/* ─── ① 左側の一覧エリアだけをスクロールさせる設定 ─── */
+/* 画面全体のコンテナ（すでに flex などが当たっている想定ですが、高さを固定します） */
+.user_search_container {
+  display: flex;
+  height: calc(100vh - 60px);
+  /* 画面ぴったり（ナビバー分を除く）の高さに固定 */
+  overflow: hidden;
+  /* 全体のがたつきを防止 */
+}
+
+/* 左側のカードが並ぶエリア */
+.user_list_scroll_area {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  /* ★ここが重要：中身が溢れたらここだけスクロール */
+  padding: 30px;
+  background-color: #ECF1F6;
+  /* 全体の背景と同じ薄グレー */
+}
+
+/* ─── ② カード内の名前を水色にする設定 ─── */
+.user_card_name {
+  color: #17a2b8 !important;
+  /* 見本のヘッダーと同じ綺麗な水色 */
+  font-weight: bold;
+  font-size: 15px;
+  text-decoration: none;
+  /* リンクの下線を消す */
+}
+
+
+/* ─── ③ 右側の検索エリアと、追加条件のグレー背景 ─── */
+/* 右側の固定検索バー */
+.user_search_sidebar {
+  width: 300px;
+  height: 100%;
+  background-color: #FFF;
+  /* 基本のベースは白 */
+  padding: 20px;
+  border-left: 1px solid #CDD6DD;
+  overflow-y: auto;
+  /* 検索項目が多くてもスクロールできるように */
+}
+
+/* ★見本通り：「検索条件の追加」の中の枠内をグレーにする */
+.search_condition_box {
+  background-color: #F2F4F7;
+  /* 見本のような少し暗めの落ち着いた薄グレー */
+  border: 1px solid #E3E8EC;
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 15px;
+}
 
 /* ==========================================================================
    スクール予約（登録・予約・確認 全画面共通）

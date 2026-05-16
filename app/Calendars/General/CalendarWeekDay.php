@@ -26,7 +26,7 @@ class CalendarWeekDay{
 
    function render(){
     // 今日より前の日付（過去日）なら 'past-day' というクラスを追加する
-    $dayClass = $this->carbon->lt(Carbon::today()) ? 'past-day bg-secondary' : '';
+    $dayClass = $this->carbon->lt(Carbon::today()) ? 'past-day ' : '';
     return '<p class="day '.$dayClass.'">' . $this->carbon->format("j"). '日</p>';
     }
 
@@ -52,7 +52,7 @@ class CalendarWeekDay{
 
     // ★修正：過去日の判定ロジック
      $current_date = Carbon::today()->format('Y-m-d');
-     if($ymd < $current_date){
+     if($ymd <= $current_date){
         $my_reserve = $this->authReserveDate($ymd)->first();
         if($my_reserve){
           $html_text = '<p class="m-0 small" style="color:black;">' . $my_reserve->setting_part . '部参加</p>';

@@ -30,20 +30,34 @@ class CalendarWeekDay{
     $two_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
     $three_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
 
-    $html[] = '<div class="text-left">';
+    $html[] = '<div class="text-left calendar_status_cell">';
 
-    // 1部：リンクを追加（route関数の第2引数で日付と部数を渡す）
+    // 1部
     if($one_part){
-      $html[] = '<p class="day_part m-0 pt-1"><a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 1]).'">1部：' . $one_part->users->count() . '人</a></p>';
+      $count = $one_part->users->count();
+      // ★0人なら「0」、1人以上なら「〇人」にする条件分岐
+      $display_count = ($count === 0) ? '0' : $count . '人';
+
+      // ★「1部」を span で囲み、その後に全角スペース（または半角スペース）を挟んでいます
+      $html[] = '<p class="day_part m-0 pt-1"><span class="status_part">1部</span>&nbsp;&nbsp;<a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 1]).'" class="status_num">' . $display_count . '</a></p>';
     }
+
     // 2部
     if($two_part){
-      $html[] = '<p class="day_part m-0 pt-1"><a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 2]).'">2部：' . $two_part->users->count() . '人</a></p>';
+      $count = $two_part->users->count();
+      $display_count = ($count === 0) ? '0' : $count . '人';
+
+      $html[] = '<p class="day_part m-0 pt-1"><span class="status_part">2部</span>&nbsp;&nbsp;<a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 2]).'" class="status_num">' . $display_count . '</a></p>';
     }
+
     // 3部
     if($three_part){
-      $html[] = '<p class="day_part m-0 pt-1"><a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 3]).'">3部：' . $three_part->users->count() . '人</a></p>';
+      $count = $three_part->users->count();
+      $display_count = ($count === 0) ? '0' : $count . '人';
+
+      $html[] = '<p class="day_part m-0 pt-1"><span class="status_part">3部</span>&nbsp;&nbsp;<a href="'.route('calendar.admin.detail', ['date' => $ymd, 'part' => 3]).'" class="status_num">' . $display_count . '</a></p>';
     }
+
     $html[] = '</div>';
 
     return implode("", $html);
