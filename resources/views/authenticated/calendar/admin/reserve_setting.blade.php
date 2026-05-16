@@ -1,12 +1,22 @@
+<!-- 予約枠登録カレンダー の画面 -->
 <x-sidebar>
-  <!-- 予約枠登録 -->
-<div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;">
-  <div class="w-100 vh-100 border p-5">
-    {!! $calendar->render() !!}
-    <div class="adjust-table-btn m-auto text-right">
-      <input type="submit" class="btn btn-primary" value="登録" form="reserveSetting" onclick="return confirm('登録してよろしいですか？')">
+<div class="calendar_main_container">
+  <div class="calendar_inner_area">
+
+    <div class="calendar_card_box">
+
+      <p class="calendar_month_title">{{ $calendar->getTitle() }}</p>
+
+      <div class="calendar_table_wrapper">
+        {!! $calendar->render() !!}
+      </div>
+
+      <div class="calendar_btn_area">
+        <input type="submit" class="btn_calendar_blue_submit" value="登録" form="reserveSetting" onclick="return confirm('登録してよろしいですか？')">
+      </div>
+
     </div>
+
   </div>
 </div>
-
 </x-sidebar>

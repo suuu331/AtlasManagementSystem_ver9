@@ -50,9 +50,9 @@
       <div class="right_container">
         <a href="{{ route('post.input') }}" class="btn btn-primary w-100 mb-3">投稿</a>
 
-        <div class="search_area d-flex mb-3">
-          <input type="text" class="form-control" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-          <input type="submit" class="btn btn-info ml-1" value="検索" form="postSearchRequest">
+        <div class="search_area mb-3">
+          <input type="text" class="form-control mb-2" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
+          <input type="submit" class="btn btn-info w-100" value="検索" form="postSearchRequest">
         </div>
 
         <div class="btn_flex_container mb-4">

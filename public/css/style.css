@@ -135,7 +135,7 @@ li {
 /* 白い箱（login_box）のサイズを制限 */
 .login_box {
   width: 100%;
-  max-width: 550px;
+  max-width: 400px;
   /* ★ここでサイズを固定します */
   background: #FFF;
   padding: 30px;
@@ -451,6 +451,7 @@ li {
   font-weight: bold;
 }
 
+
 /* --- いいね・自分の投稿ボタンのサイズを揃える --- */
 .btn_flex_container {
   display: flex;
@@ -484,6 +485,32 @@ li {
   background-color: #EBB94D !important;
 }
 
+
+/* 掲示板の検索エリア（横並び）の調整 */
+.search_area.d-flex {
+  width: 100%;
+  gap: 10px;
+  /* ml-2 の代わりに CSSで隙間を作る */
+}
+
+/* 入力欄：残りの幅をすべて使うように指定 */
+.search_area .form-control {
+  flex: 1;
+  /* これが flex-grow-1 と同じ役割をします */
+  width: auto;
+  /* 固定幅を解除 */
+}
+
+/* ボタン：幅を固定せず、中身に合わせて表示 */
+.search_area .btn-info {
+  white-space: nowrap !important;
+  /* 文字が折り返さないように固定 */
+  background-color: #00BFFF !important;
+  border: none;
+  color: #FFF;
+  font-weight: bold !important;
+  padding: 6px 15px;
+}
 
 
 /* --- カテゴリーエリア --- */
@@ -852,4 +879,419 @@ li {
   margin-top: 15px;
   cursor: pointer;
   font-size: 13px;
+}
+
+
+
+/* --- ============================================================
+プロフィール画面全体のレイアウト ============================================================--- */
+.profile_main_container {
+  flex: 1;
+  /* サイドバーの右側の残りスペースをすべて使う */
+  min-height: 100vh;
+  background-color: #f4f7f9;
+  /* 画面全体のグレー背景 */
+  padding: 50px 0;
+  /* 上下に程よい余白を作る */
+  display: flex;
+  justify-content: center;
+  /* 中身（カードたち）を中央に寄せる */
+}
+
+.profile_inner_area {
+  width: 90%;
+  /* 画面内の幅を指定 */
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.profile_title {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 15px;
+  text-align: left;
+  /* 左寄せを確定させる */
+}
+
+/* 白いプロフィールカード */
+.user_status_box {
+  background-color: #FFF;
+  border-radius: 10px;
+  padding: 20px 40px;
+  /*「上下は20px、左右は40px」という意味になり、上下が狭くなる */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.user_status_box p {
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 現在の選択科目表示 */
+.current_subjects {
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.subject_tag {
+  background-color: #E6F7FF;
+  color: #00A6D4;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+
+
+/* --- 選択科目編集のアコーディオン（見本完全再現版） --- */
+.subject_accordion_wrapper {
+  margin-top: 15px;
+}
+
+/* スイッチ部分：枠線を無くし、水色のテキストリンク風にする */
+.subject_toggle_text {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #00A6D4;
+  /* 見本の文字色に合わせた綺麗な水色 */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 15px;
+}
+
+/* 矢印アイコンの微調整 */
+.subject_toggle_text .toggle_arrow {
+  font-size: 12px;
+}
+
+/* 開閉する中身：枠線をなくして、文字の下に自然に配置 */
+.subject_inner {
+  display: none;
+  /*↑最初から閉じた状態になります */
+  padding: 5px 0;
+  background-color: transparent;
+}
+
+/* チェックボックス群と登録ボタンを横一行に並べる */
+.checkbox_and_btn_row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  /* 要素同士の横の隙間 */
+}
+
+/* 国語・数学・英語などの各アイテム */
+.checkbox_item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 小さくて四角い青い「登録」ボタン */
+.btn_subject_blue_submit {
+  background-color: #3B69FF !important;
+  /* 見本に近い鮮やかな青 */
+  color: #FFF !important;
+  border: none !important;
+  border-radius: 4px;
+  /* 緩やかな角丸 */
+  padding: 4px 12px;
+  /* 小さめサイズに調整 */
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(59, 105, 255, 0.2);
+}
+
+
+
+/* ==========================================================================
+   スクール予約（登録・予約・確認 全画面共通）
+   ========================================================================== */
+
+/* 1. 画面全体の薄グレー背景 */
+.calendar_main_container {
+  flex: 1;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ECF1F6;
+  padding: 40px 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* 2. 中央寄せの外枠（画面サイズに合わせて伸縮） */
+.calendar_inner_area {
+  width: 92%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 3. 白い大きなカードボックス（ボタンを内側の右下に収める） */
+.calendar_card_box {
+  background-color: #FFF;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 4. 年月のタイトル */
+.calendar_month_title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+/* 5. カレンダーテーブルの共通設定（横幅を確実に100%広げる） */
+.calendar_table_wrapper,
+.calendar_table_wrapper table {
+  width: 100% !important;
+}
+
+.calendar_table_wrapper table {
+  border-collapse: collapse;
+  table-layout: fixed !important;
+  /* 7つの曜日をきれいに均等幅にする */
+}
+
+/* 6. カレンダーのマス（th / td）の共通サイズ・余白 */
+.calendar_table_wrapper table th,
+.calendar_table_wrapper table td {
+  border: 1px solid #CDD6DD;
+  text-align: center;
+  padding: 10px 4px;
+  vertical-align: top;
+  font-size: 13px;
+}
+
+/* 7. すべてのカレンダー画面共通の「薄グレー（受付終了・過去）」設定 */
+.calendar_table_wrapper table td.past_day,
+.calendar_table_wrapper table td.empty_day,
+.calendar_table_wrapper table td.disabled,
+.calendar_table_wrapper table td[style*="background"] {
+  background-color: #E6EAEF !important;
+  /* 薄グレーへ */
+  color: #6c757d !important;
+}
+
+/* 8. 青いボタンエリア（白枠の中の右下に配置） */
+.calendar_btn_area {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 25px;
+}
+
+.btn_calendar_blue_submit {
+  background-color: #3B69FF !important;
+  color: #FFF !important;
+  border: none !important;
+  border-radius: 4px;
+  padding: 8px 24px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+/* ==========================================================================
+   各画面ごとの微調整（差分だけをシンプルに記述）
+   ========================================================================== */
+
+/* --- 【予約枠登録画面】入力欄のサイズ --- */
+.calendar_table_wrapper input[type="text"],
+.calendar_table_wrapper input[type="number"] {
+  width: 34px;
+  height: 20px;
+  border: 1px solid #CDD6DD;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 11px;
+  margin-left: 5px;
+}
+
+/* --- 【予約画面】セレクトボックス（水色枠） --- */
+.calendar_table_wrapper select {
+  width: 90% !important;
+  max-width: 95px;
+  height: 28px;
+  border: 1px solid #00BFFF;
+  /* 綺麗な水色 */
+  border-radius: 4px;
+  background-color: #FFF;
+  font-size: 12px;
+  margin: 6px auto 0;
+  display: block;
+  cursor: pointer;
+}
+
+/* --- 【予約画面】すでに予約している赤いラベル（リモ1部） --- */
+.calendar_table_wrapper .booked_label,
+.calendar_table_wrapper .bg-danger {
+  background-color: #D11A2A !important;
+  color: #FFF !important;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* 確認画面の「青い文字（1部：0人）」 */
+.calendar_table_wrapper td a,
+.calendar_table_wrapper td span:not(.day_num) {
+  font-size: 12px;
+  color: #3b69ff !important;
+  display: block;
+  text-align: left;
+  padding-left: 15px;
+  margin-top: 4px;
+  text-decoration: none;
+}
+
+/* ただし、グレーマスの文字だけは青くしないお留守番設定 */
+.calendar_table_wrapper td.past_day span,
+.calendar_table_wrapper td.disabled span {
+  color: #6c757d !important;
+}
+
+/* ==========================================================================
+   スクール予約：予約確認画面 専用スタイル
+   ========================================================================== */
+
+/* マスの中の「1部 0」などの文字の並びを中央寄せにする */
+.calendar_table_wrapper td p,
+.calendar_table_wrapper td .reserve_status_text {
+  /* クラス名がついている場合 */
+  font-size: 12px;
+  color: #666;
+  margin: 4px 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  /* 「1部」と「0」の間の程よい隙間 */
+}
+
+/* 土曜日・日曜日の文字色を少しだけ見本に合わせて調整（必要であれば） */
+.calendar_table_wrapper table th:nth-child(6) {
+  color: #4D76FF;
+}
+
+/* 土曜日は青 */
+.calendar_table_wrapper table th:nth-child(7) {
+  color: #FF4D4D;
+}
+
+/* 日曜日は赤 */
+
+
+
+/* ==========================================================================
+   スクール予約：予約詳細確認画面（見本完全再現版）
+   ========================================================================== */
+
+/* 画面全体の薄グレー背景 */
+.reserve_detail_container {
+  flex: 1;
+  min-height: 100vh;
+  background-color: #ECF1F6;
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* 中央寄せの外枠 */
+.reserve_detail_inner {
+  width: 90%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+/* ★見本通り：白枠の外の左上・グレーの小さい文字 */
+.reserve_detail_title {
+  text-align: left;
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: normal;
+  margin-bottom: 12px;
+  padding-left: 5px;
+}
+
+/* 白い大きなカードボックス */
+.reserve_detail_card {
+  background-color: #FFF;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* テーブルの設定 */
+.reserve_people_table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #CDD6DD;
+  table-layout: fixed;
+  /* ★列の横幅（%）をきっちり固定する設定 */
+}
+
+/* ヘッダーとセルの共通サイズ・余白 */
+.reserve_people_table th,
+.reserve_people_table td {
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* テーブルヘッダー（鮮やかな水色） */
+.reserve_people_table th {
+  background-color: #17a2b8 !important;
+  color: #FFF !important;
+  font-weight: bold;
+  border: 1px solid #CDD6DD;
+}
+
+/* 各マスのうっすらとした境界線 */
+.reserve_people_table td {
+  border: 1px solid #CDD6DD;
+  color: #333;
+}
+
+/* ★見本通り：リストの背景色を1行ごとに交互（白と薄水色）にする設定 */
+.reserve_people_table tbody tr:nth-child(odd) {
+  background-color: #FFF;
+}
+
+.reserve_people_table tbody tr:nth-child(even) {
+  background-color: #EBF7FA !important;
+}
+
+/* --------------------------------------------------------------------------
+   ★見本通り：ID・名前・場所の横幅の割合（比率）
+   -------------------------------------------------------------------------- */
+.reserve_people_table .col_id {
+  width: 20%;
+  /* IDは狭く */
+}
+
+.reserve_people_table .col_name {
+  width: 50%;
+  /* 名前は一番広く */
+}
+
+.reserve_people_table .col_place {
+  width: 30%;
+  /* 場所は中間 */
 }

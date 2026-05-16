@@ -1,15 +1,19 @@
 <x-sidebar>
-<div class="vh-100 pt-5" style="background:#ECF1F6;">
-  <div class="border w-75 m-auto pt-5 pb-5" style="border-radius:5px; background:#FFF;">
-    <div class="w-75 m-auto border" style="border-radius:5px;">
+<!-- 【スクール予約】予約画面（生徒が予約する画面） -->
+<div class="calendar_main_container">
+  <div class="calendar_inner_area">
+    <div class="calendar_card_box">
 
-      <p class="text-center">{{ $calendar->getTitle() }}</p>
-      <div class="">
+      <p class="calendar_month_title">{{ $calendar->getTitle() }}</p>
+
+      <div class="calendar_table_wrapper">
         {!! $calendar->render() !!}
       </div>
+
     </div>
-    <div class="text-right w-75 m-auto">
-      <input type="submit" class="btn btn-primary" value="予約する" form="reserveParts">
+
+    <div class="calendar_btn_area">
+      <input type="submit" class="btn_calendar_blue_submit" value="予約する" form="reserveParts">
     </div>
   </div>
 </div>
