@@ -1,8 +1,8 @@
 <x-sidebar>
 <div class="profile_main_container">
-  <div class="profile_inner_area">
+  <p class="profile_title">{{ $user->over_name }} {{ $user->under_name }}さんのプロフィール</p>
 
-    <p class="profile_title">{{ $user->over_name }} {{ $user->under_name }}さんのプロフィール</p>
+  <div class="profile_inner_area">
 
     <div class="user_status_box">
       <p>名前 : <span>{{ $user->over_name }} {{ $user->under_name }}</span></p>
@@ -23,7 +23,7 @@
 
   <div class="subject_toggle_text js-subject-toggle">
     <span>選択科目の登録</span>
-    <i class="fas fa-chevron-down toggle_arrow"></i>
+    <i class="fas fa-chevron-up toggle_arrow"></i>
   </div>
 
   <div class="subject_inner">

@@ -1,14 +1,15 @@
 <x-sidebar>
-<p>ユーザー検索</p>
-<div class="search_content w-100 border d-flex">
+<div class="search_content">
+
+  {{-- 左側：ユーザーカード一覧エリア --}}
   <div class="reserve_users_area">
     @foreach($users as $user)
-    <div class="border one_person">
+    <div class="one_person">
       <div>
         <span>ID : </span><span>{{ $user->id }}</span>
       </div>
       <div><span>名前 : </span>
-        <a href="{{ route('user.profile', ['id' => $user->id]) }}">
+        <a href="{{ route('user.profile', ['id' => $user->id]) }}" class="user_card_name">
           <span>{{ $user->over_name }}</span>
           <span>{{ $user->under_name }}</span>
         </a>
@@ -44,7 +45,6 @@
       <div>
         @if($user->role == 4)
         <span>選択科目 :</span>
-        {{-- ★ここから追加 選択科目」を出す--}}
           @foreach($user->subjects as $subject)
             <span>{{ $subject->subject }}</span>
           @endforeach
@@ -54,20 +54,20 @@
     @endforeach
   </div>
 
+  {{-- 右側：固定の検索バーエリア --}}
   <div class="search_area">
-     {{-- キーワード・カテゴリ・並び替え --}}
     <div class="search_box">
       <p class="search_label">検索</p>
-      <input type="text" class="free_word mb-3" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
+      <input type="text" class="free_word" name="keyword" placeholder="キーワードを検索" form="userSearchRequest">
 
       <p class="search_label">カテゴリ</p>
-      <select form="userSearchRequest" name="category" class="mb-3">
+      <select form="userSearchRequest" name="category">
         <option value="name">名前</option>
         <option value="id">社員ID</option>
       </select>
 
-      <p class="search_label">並び替え</.>
-      <select name="updown" form="userSearchRequest" class="mb-3">
+      <p class="search_label">並び替え</p>
+      <select name="updown" form="userSearchRequest">
         <option value="ASC">昇順</option>
         <option value="DESC">降順</option>
       </select>
@@ -75,8 +75,7 @@
 
     {{-- 検索条件の追加（アコーディオン） --}}
     <div class="search_conditions_container">
-     {{-- ここ（スイッチ部分）だけに js-search-toggle をつける --}}
-      <p class="m-0 search_conditions js-search-toggle">
+      <p class="search_conditions js-search-toggle">
          <span>検索条件の追加</span>
          <i class="fas fa-chevron-down"></i>
       </p>
@@ -89,7 +88,7 @@
         </div>
         <div class="mb-3">
           <label class="d-block small">権限</label>
-          <select name="role" form="userSearchRequest" class="w-100">
+          <select name="role" form="userSearchRequest">
             <option selected disabled>----</option>
             <option value="1">教師(国語)</option>
             <option value="2">教師(数学)</option>
@@ -111,44 +110,33 @@
       </div>
     </div>
 
-    {{-- ボタン類 --}}
+    {{-- ボタン類（★classを独自のものに変更しました） --}}
     <div class="search_buttons">
-      <input type="submit" name="search_btn" value="検索" class="btn btn-info w-100 mb-2" form="userSearchRequest">
-      {{-- リセットを一番下に配置 --}}
-      <input type="reset" value="リセット" class="reset_btn w-100" form="userSearchRequest">
+      <input type="submit" name="search_btn" value="検索" class="user_search_btn" form="userSearchRequest">
+      <input type="reset" value="リセット" class="reset_btn" form="userSearchRequest">
     </div>
   </div>
-    <form action="{{ route('user.show') }}" method="get" id="userSearchRequest"></form>
-  </div>
+
+  <form action="{{ route('user.show') }}" method="get" id="userSearchRequest"></form>
 </div>
 
-
-<!-- jQueryを読み込む -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 $(function () {
-  // 1. まず、既存のクリックイベントをすべてクリアしてから登録する
+  $('.search_conditions_inner').hide();
+
   $('.js-search-toggle').off('click').on('click', function (e) {
-    // aタグやsubmitのような挙動を完全に止める
     e.preventDefault();
     e.stopPropagation();
 
     var $inner = $(this).next('.search_conditions_inner');
+    if ($inner.is(':animated')) { return false; }
 
-    // 2. アニメーション中なら何もしない（連打防止）
-    if ($inner.is(':animated')) {
-      return false;
-    }
-
-    // 3. スライド開閉を実行
     $inner.slideToggle(300);
-
-    // 4. 矢印の向きを切り替え
     $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
   });
 
-  // 5. 中身をクリックしても親のイベントが発火しないようにする
   $('.search_conditions_inner').on('click', function (e) {
     e.stopPropagation();
   });

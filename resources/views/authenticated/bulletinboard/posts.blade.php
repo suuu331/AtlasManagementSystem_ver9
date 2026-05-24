@@ -1,4 +1,5 @@
 <x-sidebar>
+  <!-- 掲示板　投稿一覧画面 -->
   <div class="main-container">
     <div class="board_wrapper">
 
@@ -16,29 +17,29 @@
             </p>
 
             {{-- 下部エリア：CSSの justify-content: space-between が効く構造 --}}
-      <div class="post_bottom_area mt-3">
-        {{-- 左下：カテゴリー --}}
-  <div class="bottom_left">
-    {{-- ★sをつけて subCategories にし、最初の1つを表示するようにします --}}
-    @if($post->subCategories->first())
-      <span class="category_box">{{ $post->subCategories->first()->sub_category }}</span>
-    @endif
-  </div>
+            <div class="post_bottom_area mt-3">
+              {{-- 左下：カテゴリー --}}
+              <div class="bottom_left">
+                @if($post->subCategories->first())
+                  <span class="category_box">{{ $post->subCategories->first()->sub_category }}</span>
+                @endif
+              </div>
 
-  {{-- 右下：アイコン --}}
-  <div class="bottom_right d-flex post_status">
-    <div class="mr-3">
-      <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="text-secondary" style="text-decoration: none;">
-    <i class="fa fa-comment"></i>
-    <span>{{ $post->postComments->count() }}</span></a>
-    </div>
-    <div>
-      @if(Auth::user()->is_Like($post->id))
-        <i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i>
-      @else
-        <i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i>
-      @endif
-      <span class="like_counts{{ $post->id }}">{{ $post->likes->count() }}</span>
+              {{-- 右下：アイコン --}}
+              <div class="bottom_right d-flex post_status">
+                <div class="mr-3">
+                  <a href="{{ route('post.detail', ['id' => $post->id]) }}" class="text-secondary" style="text-decoration: none;">
+                    <i class="fa fa-comment"></i>
+                    <span>{{ $post->postComments->count() }}</span>
+                  </a>
+                </div>
+                <div>
+                  @if(Auth::user()->is_Like($post->id))
+                    <i class="fas fa-heart un_like_btn" post_id="{{ $post->id }}"></i>
+                  @else
+                    <i class="fas fa-heart like_btn" post_id="{{ $post->id }}"></i>
+                  @endif
+                  <span class="like_counts{{ $post->id }}">{{ $post->likes->count() }}</span>
                 </div>
               </div> {{-- bottom_rightの閉じ --}}
             </div> {{-- post_bottom_areaの閉じ --}}
@@ -48,11 +49,12 @@
 
       {{-- 右側：メニューエリア --}}
       <div class="right_container">
-        <a href="{{ route('post.input') }}" class="btn btn-primary w-100 mb-3">投稿</a>
+        <a href="{{ route('post.input') }}" class="btn btn-primary">投稿</a>
 
-        <div class="search_area mb-3">
-          <input type="text" class="form-control mb-2" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-          <input type="submit" class="btn btn-info w-100" value="検索" form="postSearchRequest">
+        {{-- ★修正：不要なBootstrapクラスを削り、CSSの真横並び（board_search_row）を適用 --}}
+        <div class="board_search_row mb-3">
+          <input type="text" class="board_search_input" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
+          <input type="submit" class="board_search_btn" value="検索" form="postSearchRequest">
         </div>
 
         <div class="btn_flex_container mb-4">
@@ -60,10 +62,10 @@
           <input type="submit" name="my_posts" class="btn btn-my-post" value="自分の投稿" form="postSearchRequest">
         </div>
 
-        <p class="mb-2">カテゴリー検索</p>
+        <p class="category_title">カテゴリー検索</p>
         <div class="category_area">
           @foreach($categories as $category)
-            <div class="main_category d-flex justify-content-between js-accordion-title" style="cursor: pointer;">
+            <div class="main_category js-accordion-title" style="cursor: pointer;">
               <span>{{ $category->main_category }}</span>
               <i class="fas fa-chevron-down"></i>
             </div>
@@ -85,50 +87,46 @@
   </div>
 
 
- <!-- JavaScriptの部分 -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-$(function () {
-  // 1. カテゴリー開閉
-  $('.js-accordion-title').click(function () { // クラス名を揃えました
-    $(this).next('.sub_category_list').slideToggle();
-    $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
-  });
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+  $(function () {
+    // 1. カテゴリー開閉
+    $('.js-accordion-title').click(function () {
+      $(this).next('.sub_category_list').slideToggle();
+      $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+    });
 
-  // 2. いいね登録
-  $(document).on('click', '.like_btn', function (e) {
-    var _this = $(this);
-    var post_id = _this.attr('post_id');
-    $.ajax({
-      headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-      method: "post",
-      url: "/like/post/" + post_id,
-      data: { post_id: post_id },
-    }).done(function (res) {
-      // ✅ .css() を消しました。これでCSSファイルの赤色が反映されます
-      _this.addClass('un_like_btn').removeClass('like_btn');
-      var count = $('.like_counts' + post_id).text();
-      $('.like_counts' + post_id).text(parseInt(count) + 1);
+    // 2. いいね登録
+    $(document).on('click', '.like_btn', function (e) {
+      var _this = $(this);
+      var post_id = _this.attr('post_id');
+      $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        method: "post",
+        url: "/like/post/" + post_id,
+        data: { post_id: post_id },
+      }).done(function (res) {
+        _this.addClass('un_like_btn').removeClass('like_btn');
+        var count = $('.like_counts' + post_id).text();
+        $('.like_counts' + post_id).text(parseInt(count) + 1);
+      });
+    });
+
+    // 3. いいね解除
+    $(document).on('click', '.un_like_btn', function (e) {
+      var _this = $(this);
+      var post_id = _this.attr('post_id');
+      $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        method: "post",
+        url: "/unlike/post/" + post_id,
+        data: { post_id: post_id },
+      }).done(function (res) {
+        _this.addClass('like_btn').removeClass('un_like_btn');
+        var count = $('.like_counts' + post_id).text();
+        $('.like_counts' + post_id).text(parseInt(count) - 1);
+      });
     });
   });
-
-  // 3. いいね解除
-  $(document).on('click', '.un_like_btn', function (e) {
-    var _this = $(this);
-    var post_id = _this.attr('post_id');
-    $.ajax({
-      headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-      method: "post",
-      url: "/unlike/post/" + post_id,
-      data: { post_id: post_id },
-    }).done(function (res) {
-      // ✅ .css() を消しました。これでCSSファイルのグレーが反映されます
-      _this.addClass('like_btn').removeClass('un_like_btn');
-      var count = $('.like_counts' + post_id).text();
-      $('.like_counts' + post_id).text(parseInt(count) - 1);
-    });
-  });
-});
-</script>
-
+  </script>
 </x-sidebar>

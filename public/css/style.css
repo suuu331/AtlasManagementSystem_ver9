@@ -336,221 +336,228 @@ li {
 
 
 
-/* ============================================================
-   掲示板：投稿一覧
-   ============================================================ */
+/* ==========================================================================
+   掲示板：投稿一覧（他画面への干渉を完全に防ぐ修正版）
+   ========================================================================== */
 
-/* 全体を囲む箱 */
+/* 1. 全体を囲む箱 */
 .board_wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 10px;
-  /* 上の余白を多めにとって見本のように配置 */
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: 70px !important;
+  padding: 30px 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* --- 左側：投稿一覧エリア --- */
+/* 2. 左側：投稿一覧エリア */
 .left_container {
-  flex: 1;
+  width: 620px !important;
+  max-width: 620px !important;
+  min-width: 620px !important;
+  flex: 0 0 620px !important;
 }
 
+/* 3. 右側：メニューエリア */
 .right_container {
-  width: 300px;
+  width: 280px !important;
+  max-width: 280px !important;
+  min-width: 280px !important;
+  flex: 0 0 280px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
 }
 
-/* 投稿枠 */
+/* --- 投稿枠（カード） --- */
 .post_area {
-  background: #FFF;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  /* ↑枠と枠の間の隙間 */
-  padding: 15px 20px;
-  /* ↑上下の余白 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  /* ほんのり影 */
+  background: #FFF !important;
+  border-radius: 10px !important;
+  margin-bottom: 12px !important;
+  padding: 18px 25px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid #E3E8EC !important;
 }
 
-/* 「投稿のタイトル（リンク）」の見た目 */
 .post_title a {
-  color: #3172D7;
-  /* 見本の青色 */
-  font-weight: bold;
-  text-decoration: none;
+  color: #3172D7 !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  font-size: 16px !important;
 }
 
-/* 投稿枠の下の部分 横並びにし両端に寄せる */
 .post_bottom_area {
-  display: flex;
-  justify-content: space-between;
-  /* ↑これで左と右に分かれます */
-  align-items: center;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-top: 10px !important;
 }
 
-/* カテゴリーの青いラベル */
 .post_area .category_box {
   display: inline-block !important;
-  /* 消えるのを防ぐ */
   background: #03AAD2 !important;
-  /* 見本の明るい水色 */
   color: #FFF !important;
-  border-radius: 5px;
-  padding: 2px 10px;
-  font-size: 10px;
-  font-weight: bold;
-  line-height: 1.5;
+  border-radius: 5px !important;
+  padding: 3px 12px !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
 }
 
-/* bottom_left のサイズが潰れないように設定 */
 .bottom_left {
-  display: flex;
-  align-items: center;
-  min-height: 20px;
-  /* カテゴリーがなくても高さを確保 */
+  display: flex !important;
+  align-items: center !important;
+  min-height: 24px !important;
 }
 
-
-/* アイコンコメントといいねの数字の調整 */
-.post_status span {
-  margin-left: 2px;
-}
-
-/* アイコンや数字のグレー色をまとめて設定 */
 .post_status i,
 .post_status span {
   color: #999 !important;
-  font-size: 12px;
+  font-size: 13px !important;
 }
 
-/* ハート（いいね）の未選択時の色グレー */
-/* ハート（いいね）の選択時の色赤色 */
-/* 「iタグ（アイコン）」の色を指定していることを明確にする */
+.post_status span {
+  margin-left: 4px !important;
+}
+
 .post_status i.un_like_btn {
   color: #E2254D !important;
-  /* 赤 */
 }
 
 .post_status i.like_btn {
   color: #DDD !important;
-  /* グレー */
 }
 
-/* カテゴリー検索のタイトルの文字サイズ */
-.category_search_title {
-  font-size: 13px;
-  margin-bottom: 8px;
-}
+/* ==========================================================================
+   右側メニューエリアのパーツ調整（掲示板限定に固定）
+   ========================================================================== */
 
-
-
-/* --- 右側メニューのボタン --- */
-.btn-primary {
-  background-color: #61A3AD !important;
-  /* 検索ボタンと同じ水色 */
+/* 「投稿」ボタン */
+.right_container .btn-primary {
+  background-color: #4CA3CB !important;
   border: none !important;
-  padding: 10px 0;
-  font-weight: bold;
+  width: 100% !important;
+  padding: 12px 0 !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  border-radius: 6px !important;
+  color: #FFF !important;
+  display: block !important;
 }
 
-
-/* --- いいね・自分の投稿ボタンのサイズを揃える --- */
-.btn_flex_container {
-  display: flex;
-  gap: 10px;
-  /* ボタン同士の間の隙間 */
-  margin-top: 15px;
-  /* 検索窓との間隔 */
+/* キーワード検索と検索ボタンの横並び */
+.board_search_row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
-.btn_flex_container .btn {
+.board_search_input {
   flex: 1 !important;
-  /* ↑2つのボタンが50%ずつの幅で揃います */
-  width: auto !important;
-  /* Bootstrapのw-100を解除 */
-  padding: 8px 0;
-  border-radius: 5px;
-  border: none;
-  font-size: 12px;
-  color: #FFF;
-  font-weight: bold;
-  white-space: nowrap;
-  /* 文字が折り返さないように */
+  height: 38px !important;
+  border: 1px solid #CDD6DD !important;
+  border-radius: 5px 0 0 5px !important;
+  background-color: #ECF1F6 !important;
+  padding: 5px 12px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
 }
 
-/* 色の微調整 */
+.board_search_btn {
+  width: 70px !important;
+  height: 38px !important;
+  background-color: #03AAD2 !important;
+  border: none !important;
+  color: #FFF !important;
+  font-weight: bold !important;
+  font-size: 13px !important;
+  border-radius: 0 5px 5px 0 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
+
+/* いいね・自分の投稿ボタン（他画面の.btnに影響させない記述） */
+.btn_flex_container {
+  display: flex !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin-top: 5px !important;
+}
+
+.btn_flex_container .btn-like,
+.btn_flex_container .btn-my-post {
+  flex: 1 !important;
+  padding: 10px 0 !important;
+  border-radius: 5px !important;
+  border: none !important;
+  font-size: 13px !important;
+  color: #FFF !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  text-decoration: none !important;
+}
+
 .btn-like {
-  background-color: #E2254D !important;
+  background-color: #CA234A !important;
 }
 
 .btn-my-post {
-  background-color: #EBB94D !important;
+  background-color: #DBB34A !important;
 }
 
-
-/* 掲示板の検索エリア（横並び）の調整 */
-.search_area.d-flex {
-  width: 100%;
-  gap: 10px;
-  /* ml-2 の代わりに CSSで隙間を作る */
-}
-
-/* 入力欄：残りの幅をすべて使うように指定 */
-.search_area .form-control {
-  flex: 1;
-  /* これが flex-grow-1 と同じ役割をします */
-  width: auto;
-  /* 固定幅を解除 */
-}
-
-/* ボタン：幅を固定せず、中身に合わせて表示 */
-.search_area .btn-info {
-  white-space: nowrap !important;
-  /* 文字が折り返さないように固定 */
-  background-color: #00BFFF !important;
-  border: none;
-  color: #FFF;
+.right_container p.category_title {
+  font-size: 13px !important;
+  color: #666 !important;
   font-weight: bold !important;
-  padding: 6px 15px;
+  margin-top: 15px !important;
+  margin-bottom: 5px !important;
 }
 
-
-/* --- カテゴリーエリア --- */
 .category_area {
-  background: #ECF1F6;
-  border-radius: 10px;
-  padding: 15px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0px !important;
 }
 
 .main_category {
-  border-bottom: 1px solid #CDD6DD;
-  padding: 8px 0;
-  font-size: 14px;
-  color: #333;
+  border-bottom: 1px solid #CDD6DD !important;
+  padding: 12px 0 !important;
+  font-size: 14px !important;
+  color: #333 !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.main_category:last-of-type {
+  border-bottom: 1px solid #CDD6DD !important;
 }
 
 .sub_category_item {
-  border-bottom: 1px solid #CDD6DD;
-  padding: 5px 0 5px 10px;
+  border-bottom: 1px solid #E3E8EC !important;
+  padding: 10px 0 10px 15px !important;
+  font-size: 13px !important;
 }
 
-
-
-/* ============================================================
-   掲示板パーツ：テキスト・ステータス
-   ============================================================ */
+.sub_category_item button {
+  color: #555 !important;
+  text-decoration: none !important;
+}
 
 .contributor {
-  font-size: 12px;
-  color: #999;
-  font-weight: bold;
+  font-size: 12px !important;
+  color: #999 !important;
+  font-weight: bold !important;
 }
 
-.error_message {
-  display: block;
-  font-size: 12px;
-  color: #E2254D;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
+
 
 
 /* ============================================================
@@ -761,318 +768,391 @@ li {
 
 
 
-/* ============================================================
-   ユーザー検索画面：一覧
-   ============================================================ */
 
-/* 1. 全体レイアウト（掲示板と幅を揃える） */
+/* ==========================================================================
+   ユーザー検索一覧画面：完全独立版CSS（他画面への影響をリセット）
+   ========================================================================== */
+
+/* 1. 全体・スクロール土台（変更なし） */
 .search_content {
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  margin: 30px auto;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  height: 100vh !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
   border: none !important;
-  /* 黒枠を撤去 */
 }
 
-/* 2. 左側：ユーザーカードエリア */
+/* 2. 左側：ユーザーカードエリア（独立スクロール） */
 .reserve_users_area {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  width: 75%;
-  /* 検索フォームとの比率 */
-  height: auto;
-  /* 固定高さを解除 */
-  background: transparent;
-  /* 背景を透明にしてカードの影を際立たせる */
+  flex: 1 !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+  /* 人数が増えたらここにスクロールが出ます！ */
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-content: flex-start !important;
+  gap: 20px 15px !important;
+  padding: 30px !important;
+  background-color: #ECF1F6 !important;
+  box-sizing: border-box !important;
 }
 
-/* 3. 1人分のカードデザイン */
+/* 3. 1人分のカードデザイン（★縦幅も横幅も完全に固定！） */
 .one_person {
-  background: #FFF;
+  background: #FFF !important;
   border: none !important;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  /* ふわっとした影 */
-  padding: 20px;
-  width: calc(25% - 15px);
-  /* 横に4枚並ぶ計算 */
-  min-width: 200px;
-  height: auto;
-  /* コンテンツ量に合わせて伸縮 */
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
+  padding: 20px !important;
+  width: calc(25% - 12px) !important;
+  /* 横4枚並び */
+  min-width: 210px !important;
+
+  /* ★高さを完全に固定（260pxから絶対に動かないようにします） */
+  height: 260px !important;
+  max-height: 260px !important;
+  overflow: hidden !important;
+  /* 万が一文字が溢れても枠を壊さない */
+  box-sizing: border-box !important;
 }
 
 .one_person div {
-  margin-bottom: 5px;
-  /* 各情報の行間に少し余裕を */
+  margin-bottom: 6px !important;
 }
 
 .one_person span {
-  font-size: 13px;
-  color: #333;
+  font-size: 13px !important;
+  color: #555 !important;
 }
 
-/* 4. 右側：検索フォームエリア */
+.user_card_name {
+  color: #03AAD2 !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  margin-bottom: 4px !important;
+}
+
+/* 4. 右側：固定サイドバー（変更なし） */
 .search_area {
-  width: 20%;
-  background: transparent;
-  border: none !important;
+  width: 300px !important;
+  max-width: 300px !important;
+  min-width: 300px !important;
+  flex: 0 0 300px !important;
+  height: 100% !important;
+  background-color: #ECF1F6 !important;
+  padding: 30px 20px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  overflow-y: auto !important;
 }
 
-/* 5. アコーディオン（検索条件の追加タイトル） */
+.search_box,
+.search_conditions_container,
+.search_buttons {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+
+.search_label {
+  font-size: 14px !important;
+  color: #333 !important;
+  margin-bottom: 8px !important;
+  margin-top: 15px !important;
+  font-weight: bold !important;
+}
+
+.search_box .search_label:first-of-type {
+  margin-top: 0 !important;
+}
+
+.free_word {
+  width: 100% !important;
+  height: 40px !important;
+  background-color: #DEE5EC !important;
+  border: 1px solid #CDD6DD !important;
+  border-radius: 6px !important;
+  padding: 5px 12px !important;
+  color: #333 !important;
+  margin-bottom: 5px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+.search_area select {
+  width: 75% !important;
+  height: 40px !important;
+  background-color: #DEE5EC !important;
+  border: 1px solid #CDD6DD !important;
+  border-radius: 6px !important;
+  padding: 5px 12px !important;
+  color: #333 !important;
+  margin-bottom: 5px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+}
+
+/* 5. アコーディオン（変更なし） */
 .search_conditions {
-  border-bottom: 1px solid #CDD6DD;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 5px;
-  font-size: 14px;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding: 10px 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #CDD6DD !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  box-sizing: border-box !important;
 }
 
 .search_conditions_inner {
-  display: none;
-  /* JSで動かすので最初は非表示 */
-  background: #ECF1F6;
-  /* 見本の右側エリアと同じ色に馴染ませる */
-  padding: 15px 10px;
-  border-radius: 0 0 5px 5px;
+  width: 100% !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 15px 0 !important;
+  box-sizing: border-box !important;
 }
 
-/* 6. フォーム部品のスタイル */
-.free_word,
-.search_area select {
-  width: 100%;
-  border: 1px solid #CDD6DD;
-  border-radius: 5px;
-  padding: 8px;
-  margin-bottom: 15px;
-  outline: none;
-  background-color: #FFF;
-  /* 入力欄を白くして見やすく */
+.search_conditions_inner label {
+  font-weight: bold !important;
+  color: #333 !important;
+  margin-bottom: 5px !important;
 }
 
-/* 7. ボタン（見本再現版） */
-/* 検索ボタン：明るい水色で太字に */
-.btn-info {
-  background-color: #00BFFF !important;
+/* 6. ボタン群 */
+.search_buttons {
+  width: 100% !important;
+  margin-top: 10px !important;
+  align-items: center !important;
+}
+
+/* ★改善：掲示板と連動しない、ユーザー検索専用のボタン設定 */
+.user_search_btn {
+  background-color: #3598C4 !important;
   border: none !important;
   color: #FFF !important;
-  font-weight: bold;
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
-  cursor: pointer;
+  font-weight: bold !important;
+
+  /* ★これで確実にサイドバー内いっぱいに100%広がります！ */
+  width: 100% !important;
+  display: block !important;
+
+  height: 42px !important;
+  border-radius: 6px !important;
+  margin-top: 15px !important;
+  cursor: pointer !important;
 }
 
-/* リセットボタン：ボタンではなく「リンク」のような見た目に */
+/* リセットボタン */
 .reset_btn {
   background: none !important;
   border: none !important;
-  color: #00BFFF !important;
-  /* ボタンと同じ色で統一感 */
-  text-decoration: underline;
-  /* 下線をつける */
-  width: 100%;
-  text-align: center;
-  margin-top: 15px;
-  cursor: pointer;
-  font-size: 13px;
+  color: #3598C4 !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+  width: 100% !important;
+  text-align: center !important;
+  margin-top: 15px !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
 }
 
 
 
-/* --- ============================================================
-プロフィール画面全体のレイアウト ============================================================--- */
+
+/* ==========================================================================
+   プロフィール詳細画面：専用レイアウト
+   ========================================================================== */
+
 .profile_main_container {
-  flex: 1;
-  /* サイドバーの右側の残りスペースをすべて使う */
-  min-height: 100vh;
-  background-color: #f4f7f9;
-  /* 画面全体のグレー背景 */
-  padding: 50px 0;
-  /* 上下に程よい余白を作る */
-  display: flex;
-  justify-content: center;
-  /* 中身（カードたち）を中央に寄せる */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  /* ★ center 白枠が画面の真ん中に来ます */
+  padding: 40px 20px !important;
+  /* 左右の余白を均等に */
+  width: 100% !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  /* ★ 追加：タイトルの位置の「基準」にします */
 }
 
+/* 内側の白いカード型の箱 */
 .profile_inner_area {
-  width: 90%;
-  /* 画面内の幅を指定 */
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 1000px !important;
+  max-width: 100% !important;
+  background: #FFF !important;
+  border-radius: 12px !important;
+  padding: 30px 30px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+  border: 1px solid #E3E8EC !important;
 }
 
+/* タイトル：〇〇さんのプロフィール */
 .profile_title {
-  font-size: 14px;
-  color: #6c757d;
-  margin-bottom: 15px;
-  text-align: left;
-  /* 左寄せを確定させる */
+  position: absolute !important;
+  /* ★ 追加：画面のどこにでも自由に配置できるようにします */
+  top: 10px !important;
+  /* ★ 上からの位置（数字を小さくすると、もっと上に行きます） */
+  left: 10px !important;
+  /* ★ 左からの位置（数字を小さくすると、もっと左に行きます） */
+  font-size: 14px !important;
+  font-weight: normal !important;
+  color: #666666 !important;
+  border-bottom: none !important;
+  margin: 0 0 30px 0 !important;
+  /* 白枠との上下の隙間 */
+  padding: 0 !important;
 }
 
-/* 白いプロフィールカード */
-.user_status_box {
-  background-color: #FFF;
-  border-radius: 10px;
-  padding: 20px 40px;
-  /*「上下は20px、左右は40px」という意味になり、上下が狭くなる */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-
+/* 各ステータスのテキスト行 */
 .user_status_box p {
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #333;
+  font-size: 15px !important;
+  color: #666 !important;
+  margin-bottom: 12px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
-/* 現在の選択科目表示 */
+.user_status_box p span {
+  color: #111 !important;
+  font-weight: 500 !important;
+  margin-left: 10px !important;
+}
+
+/* 選択科目の一覧エリア */
 .current_subjects {
-  margin-bottom: 25px;
-  font-size: 14px;
+  font-size: 15px !important;
+  color: #666 !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
 }
 
+/* 科目のタグ（青い四角枠などにする場合） */
 .subject_tag {
-  background-color: #E6F7FF;
-  color: #00A6D4;
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-left: 5px;
-  font-size: 12px;
+  background: #E8F5E9 !important;
+  color: #2E7D32 !important;
+  padding: 4px 12px !important;
+  border-radius: 4px !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  margin-left: 5px !important;
 }
 
+/* ==========================================================================
+   選択科目の登録：アコーディオン開閉パーツ
+   ========================================================================== */
 
-
-/* --- 選択科目編集のアコーディオン（見本完全再現版） --- */
 .subject_accordion_wrapper {
-  margin-top: 15px;
+  border-top: none !important;
+  padding-top: 20px !important;
+  margin-top: 20px !important;
 }
 
-/* スイッチ部分：枠線を無くし、水色のテキストリンク風にする */
+/* クリックする「選択科目の登録」テキストと矢印 */
 .subject_toggle_text {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #00A6D4;
-  /* 見本の文字色に合わせた綺麗な水色 */
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: normal;
-  margin-bottom: 15px;
+  color: #3172D7 !important;
+  font-weight: bold !important;
+  font-size: 15px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  user-select: none !important;
 }
 
-/* 矢印アイコンの微調整 */
-.subject_toggle_text .toggle_arrow {
-  font-size: 12px;
+.subject_toggle_text:hover {
+  text-decoration: underline !important;
 }
 
-/* 開閉する中身：枠線をなくして、文字の下に自然に配置 */
+/* 動く矢印アイコン */
+.toggle_arrow {
+  font-size: 13px !important;
+  transition: transform 0.2s ease !important;
+  /* なめらかに動かすおまけ */
+}
+
+/* 最初は隠れているフォームのコンテナ */
 .subject_inner {
-  display: none;
-  /*↑最初から閉じた状態になります */
-  padding: 5px 0;
-  background-color: transparent;
+  margin-top: 15px !important;
+  padding: 15px 0 !important;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  border: none !important;
 }
 
-/* チェックボックス群と登録ボタンを横一行に並べる */
+/* チェックボックスとボタンを横並びにする行 */
 .checkbox_and_btn_row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  /* 要素同士の横の隙間 */
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 20px !important;
 }
 
-/* 国語・数学・英語などの各アイテム */
+/* チェックボックスの各アイテム */
 .checkbox_item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: #333;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
 }
 
-/* 小さくて四角い青い「登録」ボタン */
+.checkbox_item label {
+  font-size: 14px !important;
+  color: #333 !important;
+  cursor: pointer !important;
+  margin: 0 !important;
+  /* Bootstrapの隙間リセット */
+}
+
+.checkbox_item input[type="checkbox"] {
+  cursor: pointer !important;
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* 「登録」ボタン：他画面を絶対に壊さない専用デザイン */
 .btn_subject_blue_submit {
-  background-color: #3B69FF !important;
-  /* 見本に近い鮮やかな青 */
+  background-color: #3172D7 !important;
   color: #FFF !important;
   border: none !important;
-  border-radius: 4px;
-  /* 緩やかな角丸 */
-  padding: 4px 12px;
-  /* 小さめサイズに調整 */
-  font-size: 13px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(59, 105, 255, 0.2);
+  padding: 6px 18px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 5px rgba(49, 114, 215, 0.2) !important;
+  transition: background 0.2s !important;
+}
+
+.btn_subject_blue_submit:hover {
+  background-color: #2257A6 !important;
 }
 
 
-/* ==========================================================================
-   ユーザー検索・一覧画面（スクロール＆カラー調整）
-   ========================================================================== */
-
-/* ─── ① 左側の一覧エリアだけをスクロールさせる設定 ─── */
-/* 画面全体のコンテナ（すでに flex などが当たっている想定ですが、高さを固定します） */
-.user_search_container {
-  display: flex;
-  height: calc(100vh - 60px);
-  /* 画面ぴったり（ナビバー分を除く）の高さに固定 */
-  overflow: hidden;
-  /* 全体のがたつきを防止 */
-}
-
-/* 左側のカードが並ぶエリア */
-.user_list_scroll_area {
-  flex: 1;
-  height: 100%;
-  overflow-y: auto;
-  /* ★ここが重要：中身が溢れたらここだけスクロール */
-  padding: 30px;
-  background-color: #ECF1F6;
-  /* 全体の背景と同じ薄グレー */
-}
-
-/* ─── ② カード内の名前を水色にする設定 ─── */
-.user_card_name {
-  color: #17a2b8 !important;
-  /* 見本のヘッダーと同じ綺麗な水色 */
-  font-weight: bold;
-  font-size: 15px;
-  text-decoration: none;
-  /* リンクの下線を消す */
-}
 
 
-/* ─── ③ 右側の検索エリアと、追加条件のグレー背景 ─── */
-/* 右側の固定検索バー */
-.user_search_sidebar {
-  width: 300px;
-  height: 100%;
-  background-color: #FFF;
-  /* 基本のベースは白 */
-  padding: 20px;
-  border-left: 1px solid #CDD6DD;
-  overflow-y: auto;
-  /* 検索項目が多くてもスクロールできるように */
-}
 
-/* ★見本通り：「検索条件の追加」の中の枠内をグレーにする */
-.search_condition_box {
-  background-color: #F2F4F7;
-  /* 見本のような少し暗めの落ち着いた薄グレー */
-  border: 1px solid #E3E8EC;
-  border-radius: 6px;
-  padding: 15px;
-  margin-top: 15px;
-}
-
-/* ==========================================================================
+/* =============================================================
    スクール予約（登録・予約・確認 全画面共通）
-   ========================================================================== */
+   ============================================================== */
 
 /* 1. 画面全体の薄グレー背景 */
 .calendar_main_container {
@@ -1163,9 +1243,7 @@ li {
 }
 
 
-/* ==========================================================================
-   各画面ごとの微調整（差分だけをシンプルに記述）
-   ========================================================================== */
+/* ===== 各画面ごとの微調整  == */
 
 /* --- 【予約枠登録画面】入力欄のサイズ --- */
 .calendar_table_wrapper input[type="text"],
@@ -1225,9 +1303,9 @@ li {
   color: #6c757d !important;
 }
 
-/* ==========================================================================
+/*==================================================================
    スクール予約：予約確認画面 専用スタイル
-   ========================================================================== */
+   ============================================================== */
 
 /* マスの中の「1部 0」などの文字の並びを中央寄せにする */
 .calendar_table_wrapper td p,
@@ -1258,7 +1336,7 @@ li {
 
 
 /* ==========================================================================
-   スクール予約：予約詳細確認画面（見本完全再現版）
+   スクール予約：予約詳細確認画面
    ========================================================================== */
 
 /* 画面全体の薄グレー背景 */
@@ -1352,4 +1430,48 @@ li {
 .reserve_people_table .col_place {
   width: 30%;
   /* 場所は中間 */
+}
+
+
+
+/* ==========================================================================
+   カテゴリー検索
+   ========================================================================== */
+
+/* 1. 外側の白い枠を完全に透明にして枠線も消去 */
+.right_container .category_area {
+  background-color: transparent !important;
+  /* 背景を透明にする */
+  background: transparent !important;
+  /* 重ねて透明を強制 */
+  border: none !important;
+  /* 枠線を完全に消す */
+  box-shadow: none !important;
+  /* 影も完全に消す */
+  padding: 0 !important;
+  /* 余計な余白をリセット */
+}
+
+/* 2. 「メインカテゴリー」の背景色を透明にして、見本通りの下線だけにする */
+.right_container .main_category {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #CDD6DD !important;
+  /* 見本のような綺麗な区切り線 */
+  padding: 12px 0 !important;
+}
+
+/* 3. 「サブカテゴリー（開いた中身）」の背景もすべて透明にする */
+.right_container .sub_category_list,
+.right_container .sub_category_item {
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* サブカテゴリーの各アイテムの区切り線（見本風） */
+.right_container .sub_category_item {
+  border-bottom: 1px solid #E3E8EC !important;
+  padding: 8px 0 8px 15px !important;
 }
