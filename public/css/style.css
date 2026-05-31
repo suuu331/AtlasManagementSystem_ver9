@@ -347,8 +347,13 @@ li {
   justify-content: center !important;
   align-items: flex-start !important;
   gap: 70px !important;
-  padding: 30px 20px !important;
+  padding: 30px 0px 30px 20px !important;
+  /* [上] [右] [下] [左] */
   width: 100% !important;
+  /*追加：コンテンツ全体の最大横幅を決めてロック（例: 620px + 280px + gap70px = 970px） */
+  max-width: 970px !important;
+  /*追加：これを入れておくと、画面がどんなに巨大になっても自動で真ん中に留まる */
+  margin: 0 auto !important;
   box-sizing: border-box !important;
 }
 
@@ -1192,15 +1197,25 @@ li {
 }
 
 /* 5. カレンダーテーブルの共通設定（横幅を確実に100%広げる） */
-.calendar_table_wrapper,
-.calendar_table_wrapper table {
+.calendar_table_wrapper {
   width: 100% !important;
+
+  /* 追加：白枠全体の高さを画面の 65% 分に設定（数字は 70vh などに変えてもOK！） */
+  min-height: 65vh !important;
+
+  /* 追加：中にあるカレンダーとボタンを縦にきれいに並べ、引き伸ばすための設定 */
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
 }
 
 .calendar_table_wrapper table {
+  width: 100% !important;
   border-collapse: collapse;
   table-layout: fixed !important;
-  /* 7つの曜日をきれいに均等幅にする */
+
+  /* 👇 ここを追加：テーブル自体も白枠の高さに合わせてぐぐっと伸びるようにします */
+  flex: 1 !important;
 }
 
 /* 6. カレンダーのマス（th / td）の共通サイズ・余白 */
@@ -1208,9 +1223,10 @@ li {
 .calendar_table_wrapper table td {
   border: 1px solid #CDD6DD;
   text-align: center;
-  padding: 10px 4px;
+  padding: 30px 4px;
   vertical-align: top;
   font-size: 13px;
+  height: 1px !important;
 }
 
 /* 7. すべてのカレンダー画面共通の「薄グレー（受付終了・過去）」設定 */

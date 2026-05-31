@@ -66,7 +66,7 @@ class CalendarView{
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           // 過去日の表示（CalendarWeekDay側で「〇部参加」が出るので、ここでは hidden だけ確実に送る）
           $html[] = $day->selectPart($day->everyDay());
-          $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+
         }else{
           // 未来日の表示（キャンセルボタンなど）
          // ボタンをクリックしたときにモーダルを開く設定に変更（JSへ日付と部数を渡す）

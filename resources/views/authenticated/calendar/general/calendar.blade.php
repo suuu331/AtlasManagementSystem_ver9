@@ -8,12 +8,12 @@
 
       <div class="calendar_table_wrapper">
         {!! $calendar->render() !!}
+
+        <div class="calendar_btn_area">
+         <input type="submit" class="btn_calendar_blue_submit" value="予約する" form="reserveParts">
+        </div>
       </div>
 
-    </div>
-
-    <div class="calendar_btn_area">
-      <input type="submit" class="btn_calendar_blue_submit" value="予約する" form="reserveParts">
     </div>
   </div>
 </div>
